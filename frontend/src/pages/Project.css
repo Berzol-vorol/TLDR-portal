@@ -1,0 +1,187 @@
+.main-div-wrapper{
+    width: 1000px;
+    margin: auto;
+}
+
+.right-bar{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.left-bar{
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.submit-button{
+    background: #0a68ff;
+    width: 100px;
+    height: 30px;
+    border: none;
+    color: white;
+}
+
+.main-div-tools{
+    display: flex;
+    margin: auto;
+}
+
+.review-rating{
+    color: chocolate;
+    text-align: right;
+    font-size: 30px;
+    margin: 0;
+    width: 300px;
+}
+
+.rate-select{
+    background: #282c34;
+    font-size: 20px;
+    color: chocolate;
+    border: none;
+}
+
+.rate-div{
+    display: flex;
+    text-align: right;
+    margin-bottom: 30px;
+    width: 150px;
+}
+
+.rate-div button{
+    display: inline-block;
+    text-align: start;
+}
+
+.review-rate-button{
+    height: 50px;
+    background-color: chocolate;
+    color: #282c34;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    width: 65px;
+    margin-left: 15px;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.review-text{
+    color: chocolate;
+    font-size: 30px;
+    width: 700px;
+    margin: 0;
+}
+
+.main-div{
+    margin: auto;
+    background: #282c34;
+}
+
+.code-area{
+    width: 900px;
+    white-space: pre-line;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.review-text-div{
+    background: wheat;
+    text-align: left;
+    width: 89%;
+    padding: 10px 50px;
+    height: 500px;
+    font-size: 14px;
+    color: #282c34;
+    overflow-y: scroll;
+}
+
+.comment-div{
+    background: white;
+    display: flex;
+    flex-direction: row;
+    line-height: 30px;
+    font-size: 15px;
+    border-radius: 15px;
+    margin-bottom: 50px;
+    max-width: 900px;
+    margin-left: 50px;
+}
+
+.button-up{
+
+    width: 25px;
+    height: 25px;
+    background: green;
+    border: none;
+}
+
+.button-down{
+
+    width: 25px;
+    height: 25px;
+    background: red;
+    border: none;
+}
+
+.mark-text{
+
+    color: #282c34;
+    font-size: 15px;
+    margin: 0;
+}
+
+.comment-text{
+    margin: 0;
+    width: 750px;
+    height: 100%;
+    min-height: 100px;
+    max-width: 750px;
+    background: wheat;
+    font-size: 20px;
+    color: #282c34;
+    padding: 10px 25px 10px 25px;
+    border-radius: 0 10px 10px 0;
+    overflow-x:hidden;
+    word-wrap: break-word;
+
+}
+
+.input-comment-right-side{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.input-comment-div{
+    display: flex;
+    flex-direction: row;
+    background: white;
+    border-radius: 15px;
+    margin-bottom: 50px;
+    width: 900px;
+    height: 100px;
+    margin-left: 50px;
+}
+
+.input-comment{
+    resize: none;
+    font-size: 20px;
+    width: 770px;
+    min-height: 70px;
+    border-radius: 10px 0 0 10px;
+    border: none;
+    border-right: 1px solid #282c34;
+    padding: 14px;
+    word-wrap: break-word;
+}
