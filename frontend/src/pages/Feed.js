@@ -3,24 +3,23 @@ import "./Feed.css"
 import "./Header.css"
 import Header from "./Header";
 import Loading from "./Loading";
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {AuthContext} from "../context/AuthContext";
 import {fetchAllProjects, fetchUserById} from "../services/service";
-import {getAvatarFromData} from "@fractalsoftware/random-avatar-generator";
 
 
 const CardGeneration = (project) => {
-    let history = useHistory();
-    let avatar = getAvatarFromData(project.project.user.image, "circle");
+    let navigate = useNavigate();
+
     return(
 
         <div className={"main-div-card"}
-            onClick={() => history.push({
+            onClick={() => navigate.push({
                  pathname : "/project",
                  state : project.project.id
              })}>
             <div className={"main-div-tools"}>
-                <img className="card-profile-img" src={`data:image/svg+xml;base64,${btoa(avatar)}`}/>
+                {/*<img className="card-profile-img" src={`data:image/svg+xml;base64,${btoa(avatar)}`}/>*/}
                     <div className={"main-div-tools"} style={{margin: "0"}}>
                         <p className={"main-div-minor-text"} style={{textAlign: "left"}}>
                             {project.project.user.login} | {project.project.user.rating.toFixed(2)} | {project.project.title}</p>
@@ -48,7 +47,7 @@ const ProjectsPageGeneration = ({projects, page}) =>{
     ).reverse())
 }
 
-const PagesBarGeneration = ({projects, page, setPage, history}) => {
+const PagesBarGeneration = ({projects, page, setPage, navigate}) => {
     let j = 0;
     let i = projects.length/5;
     let result = [];
@@ -88,12 +87,12 @@ const Feed = () => {
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
-    let history = useHistory();
+    let navigate = useNavigate();
         useEffect ( () => {
 
             const checkForAuth = async () => {
                 if(auth.getUserId() == null){
-                    history.push("/")
+                    navigate.push("/")
                 }
             }
             const getProjectsForUser = async () => {
@@ -108,7 +107,7 @@ const Feed = () => {
             checkForAuth()
             getProjectsForUser()
         },
-        [auth, history]
+        [auth, navigate]
     )
 
     return (
@@ -125,7 +124,7 @@ const Feed = () => {
 
             </div>
             { loading ? <div className="company-name"> </div> :
-                    <PagesBarGeneration   projects={projects} page={page} setPage = {setPage} history = {history} />
+                    <PagesBarGeneration   projects={projects} page={page} setPage = {setPage} navigate = {navigate} />
             }
         </div>
     </div>

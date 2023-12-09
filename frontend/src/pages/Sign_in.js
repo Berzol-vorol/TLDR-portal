@@ -1,13 +1,11 @@
-import React, {useEffect, useState, useContext} from 'react';
-import Button from 'react-bootstrap/Button';
-import Header from "./Header";
+import React, { useState, useContext} from 'react';
 import "./Sign_in.css"
 import "./Push_project.css"
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {AuthContext} from "../context/AuthContext";
 import {loginUser} from "../services/service";
 
-const handleLogin = async (inputLogin, inputPassword, validation, setInputLogin, setInputPassword, setValidation, history, auth) => {
+const handleLogin = async (inputLogin, inputPassword, validation, setInputLogin, setInputPassword, setValidation, navigate, auth) => {
     let user =  {
         login : inputLogin,
         password : inputPassword
@@ -18,7 +16,7 @@ const handleLogin = async (inputLogin, inputPassword, validation, setInputLogin,
 
     if(loggedUser != null) {
         auth.login(loggedUser.id);
-        history.push("/profile");
+        navigate.push("/profile");
     } else {
         setInputLogin("");
         setInputPassword("");
@@ -34,7 +32,7 @@ const Sign_in = () => {
     const [loading, setLoading] = useState(true)
 
     const auth = useContext(AuthContext);
-    let history = useHistory();
+    let navigate = useNavigate();
 
 
     return (
@@ -54,10 +52,10 @@ const Sign_in = () => {
                                 onChange={(event) => {setInputPassword(event.target.value)}} type="password" />
                         <p className="validation">{validation}</p>
                         <div className="submit">
-                            <Button className="button" variant="success"
+                            <div className="button" variant="success"
                                 onClick={() => handleLogin(inputLogin, inputPassword, validation,
-                                    setInputLogin, setInputPassword, setValidation, history, auth)} >Sign In</Button>
-                            <Link to="/sign_up"><Button className="button" variant="success" >Sign Up</Button></Link>
+                                    setInputLogin, setInputPassword, setValidation, navigate, auth)} >Sign In</div>
+                            <Link to="/sign_up"><div className="button" variant="success" >Sign Up</div></Link>
                         </div>
                     </div>
                 </div>

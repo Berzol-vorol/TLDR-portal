@@ -2,11 +2,11 @@ import React, {useContext, useState, useEffect} from 'react';
 import "./Header.css"
 import "./Push_project.css"
 import Header from "./Header";
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {addProject} from "../services/service";
 import {AuthContext} from "../context/AuthContext";
 
-const handleSubmit = async (inputTitle, inputDescription, inputCode, history, auth) => {
+const handleSubmit = async (inputTitle, inputDescription, inputCode, navigate, auth) => {
     let new_project = {
         title: inputTitle,
         description: inputDescription,
@@ -16,7 +16,7 @@ const handleSubmit = async (inputTitle, inputDescription, inputCode, history, au
     }
 
     await addProject(new_project);
-    history.push("/profile")
+    navigate.push("/profile")
 }
 
 const Push_project = () => {
@@ -25,16 +25,16 @@ const Push_project = () => {
     const [inputDescription, setInputDescription] = useState("");
     const [inputCode, setInputCode] = useState("");
 
-    let history = useHistory();
+    let navigate = useNavigate();
 
     useEffect( () => {
         const checkAuth = async () => {
             if(auth.getUserId() == null){
-                history.push("/")
+                navigate.push("/")
             }
         }
         checkAuth()
-    }, [auth, history]
+    }, [auth, navigate]
     )
 
     return (
@@ -55,7 +55,7 @@ const Push_project = () => {
                         </div>
 
                         <div className={"project-button"}
-                            onClick={() => handleSubmit(inputTitle, inputDescription, inputCode, history, auth)}>
+                            onClick={() => handleSubmit(inputTitle, inputDescription, inputCode, navigate, auth)}>
                             <p className={"add-project-text"}>Push project</p>
                         </div>
                     </div>

@@ -3,26 +3,18 @@ import "./Header.css"
 import "./Profile.css"
 import Header from "./Header"
 import Loading from "./Loading";
-import {fetchProjectsForUser, fetchUserById, updateUserImg} from "../services/service";
-import { useHistory } from 'react-router-dom'
+import { fetchProjectsForUser, fetchUserById } from "../services/service";
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext';
-import {generateRandomAvatarData, getAvatarFromData} from "@fractalsoftware/random-avatar-generator";
 
-const logoutHandle = (history, auth) => {
+const logoutHandle = (navigate, auth) => {
     auth.logout();
-    history.push("/")
+    navigate.push("/")
 }
 
-const UpdateUserImage = async (user, setAvatar) => {
-    user.image = generateRandomAvatarData(16);
-    setAvatar(getAvatarFromData(user.image, "circle"));
-    await updateUserImg(user);
-
-}
-
-const ViewProject = ({project, history}) => {
+const ViewProject = ({project, navigate}) => {
     return(
-            <div className="project" onClick={() => history.push({
+            <div className="project" onClick={() => navigate.push({
                     pathname : "/project",
                     state : project.id
                 })}>
@@ -38,14 +30,13 @@ const Profile = () => {
     const [projects, setProjects] = useState(null)
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
-    const [avatar, setAvatar] = useState(null)
-    let history = useHistory();
+    let navigate = useNavigate();
 
 
     useEffect (() => {
         const checkForAuth = async () => {
             if(auth.getUserId() == null){
-                history.push("/")
+                navigate.push("/")
             }
         }
 
@@ -58,14 +49,13 @@ const Profile = () => {
             if(_projects == null){
                 setProjects([])
             }
-            setAvatar(getAvatarFromData(_user.image, "circle"));
             setLoading(false)
         }
 
         checkForAuth()
         getUser()
         },
-        [auth, history]
+        [auth, navigate]
     )
     return (
 
@@ -76,20 +66,15 @@ const Profile = () => {
                 <div className="main-content-left">
                     {loading ? <Loading/> :
                         <div>
-                            <img className="profile-img" src={`data:image/svg+xml;base64,${btoa(avatar)}`}/>
                             <p className="profile-text">{user.login}</p>
                             <p className="profile-text">Rating: {user.rating.toFixed(2)}</p>
                         </div>
                     }
-                    <div className="project-button" onClick={() => UpdateUserImage(user, setAvatar)}>
-                            <p className="add-project-text">Update Avatar</p>
-                    </div>
-
-                    <div className="project-button" onClick={() => history.push("/push_project")}>
+                    <div className="project-button" onClick={() => navigate.push("/push_project")}>
                         <p className="add-project-text">Add project</p>
                     </div>
 
-                    <div className="project-button" onClick={() => logoutHandle(history, auth)}>
+                    <div className="project-button" onClick={() => logoutHandle(navigate, auth)}>
                             <p className="add-project-text">Log out</p>
                     </div>
 
@@ -99,7 +84,7 @@ const Profile = () => {
                         { loading ? <div className="company-name"><Loading/></div> :
                             projects.map(
                                 (project) => {
-                                    return <ViewProject project={project} history={history}/>
+                                    return <ViewProject project={project} navigate={navigate}/>
                                 }
                             )
                         }

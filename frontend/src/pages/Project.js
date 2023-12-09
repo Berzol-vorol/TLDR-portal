@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "./Project.css"
 import "./Header.css"
-import Button from 'react-bootstrap/Button';
 import Header from "./Header";
 import Loading from "./Loading";
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {AuthContext} from "../context/AuthContext";
 import {fetchProject, fetchReview, fetchUserById, addReview, editReview, editProjectMark} from "../services/service";
 
-const voteUpReview = async (review, history) => {
+const voteUpReview = async (review, navigate) => {
     let body = {
         id: review.id,
         content:  review.content,
@@ -16,47 +15,47 @@ const voteUpReview = async (review, history) => {
     }
 
     await editReview(body)
-    history.push({
+    navigate.push({
         pathname : "/profile",
-        state : history.location.state
+        state : navigate.location.state
     })
 
-    history.push({
+    navigate.push({
         pathname : "/project",
-        state : history.location.state
+        state : navigate.location.state
     })
 
 }
 
-const voteDownReview = async (review, history) => {
+const voteDownReview = async (review, navigate) => {
     review.mark--;
 
     await editReview(review)
 
-    history.push({
+    navigate.push({
         pathname: "/profile",
-        state: history.location.state
+        state: navigate.location.state
     })
 
-    history.push({
+    navigate.push({
         pathname: "/project",
-        state: history.location.state
+        state: navigate.location.state
     })
 }
 
-const rankProject = async (project, mark, history) => {
+const rankProject = async (project, mark, navigate) => {
     project.mark = mark;
 
     await editProjectMark(project);
 
-    history.push({
+    navigate.push({
         pathname: "/profile",
-        state: history.location.state
+        state: navigate.location.state
     })
 
-    history.push({
+    navigate.push({
         pathname: "/project",
-        state: history.location.state
+        state: navigate.location.state
     })
 }
 
@@ -88,12 +87,12 @@ const handleSubmit = async (project, inputValue, setProject, setLoading, auth) =
     setLoading(false)
 }
 
-const LeftBarGeneration = ({review, history}) => {
+const LeftBarGeneration = ({review, navigate}) => {
     return(
         <div className={"left-bar"}>
-            <Button className={"button-up"} onClick={() => voteUpReview(review, history)}>^</Button>
+            <div className={"button-up"} onClick={() => voteUpReview(review, navigate)}>^</div>
             <p className={"mark-text"}>{review.mark}</p>
-            <Button className={"button-down"} onClick={() => voteDownReview(review, history)}>v</Button>
+            <div className={"button-down"} onClick={() => voteDownReview(review, navigate)}>v</div>
             <p className={"mark-text"}>{review.user.login}</p>
         </div>
     )
@@ -105,7 +104,7 @@ const ProjectGeneration = ({project, setProject, setLoading}) => {
     const [inputValue, setInputValue] = useState("");
     const [inputRank, setInputRank] = useState(5);
 
-    let history = useHistory();
+    let navigate = useNavigate();
 
     return(
         <div className={"right-bar"}>
@@ -127,8 +126,8 @@ const ProjectGeneration = ({project, setProject, setLoading}) => {
                             <option>4</option>
                             <option>5</option>
                     </select>
-                    <Button  className="review-rate-button"
-                             onClick={() => rankProject(project, inputRank, history)}>Rate</Button>
+                    <div  className="review-rate-button"
+                             onClick={() => rankProject(project, inputRank, navigate)}>Rate</div>
                 </div>
             </div>
             <div className={"input-comment-div"}>
@@ -137,14 +136,14 @@ const ProjectGeneration = ({project, setProject, setLoading}) => {
                          onChange={(event) => {setInputValue(event.target.value)}} type="text"/>
                 </div>
                 <div className={"input-comment-right-side"}>
-                 <Button style={{textAlign: "center"}} className={"submit-button"}  variant="success"
-                         onClick={() => handleSubmit(project, inputValue, setProject, setLoading, auth)} >Publish</Button>
+                 <div style={{textAlign: "center"}} className={"submit-button"}  variant="success"
+                         onClick={() => handleSubmit(project, inputValue, setProject, setLoading, auth)} >Publish</div>
                 </div>
             </div>
             {
                 project.review_data.map(review =>
                     <div className={"comment-div"} key={review.id}>
-                        <LeftBarGeneration review={review} history={history} />
+                        <LeftBarGeneration review={review} navigate={navigate} />
                         <textarea disabled className={"comment-text"}>{review.content}</textarea>
                     </div>).reverse()
             }
@@ -158,15 +157,15 @@ const Project = () => {
     const [project, setProject] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    let history = useHistory();
+    let navigate = useNavigate();
         useEffect ( () => {
             const checkAuth = async () => {
                 if(auth.getUserId() == null){
-                    history.push("/")
+                    navigate.push("/")
                 }
             }
             const getProjectForUser = async () => {
-                const _project = await fetchProject(history.location.state)
+                const _project = await fetchProject(navigate.location.state)
                 _project.user = await fetchUserById(_project.creator);
                 _project.review_data = [];
                 for(let i = 0;i < _project.reviews.length; i++) {
@@ -180,7 +179,7 @@ const Project = () => {
             checkAuth()
             getProjectForUser()
         },
-        [auth, history]
+        [auth, navigate]
     )
     return (
     <div>

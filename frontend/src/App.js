@@ -11,7 +11,7 @@ import {useAuth} from "./hooks/auth-hook";
 
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
 } from "react-router-dom";
 
@@ -26,26 +26,14 @@ function App() {
         }}
     >
       <Router>
-          <Switch>
-            <Route path="/" exact>
-              <Sign_in />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="/project">
-              <Project />
-            </Route>
-            <Route path="/feed">
-              <Feed />
-            </Route>
-            <Route path="/sign_up">
-              <Sign_up />
-            </Route>
-            <Route path="/push_project">
-              <Push_project />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/" exact element={<Sign_in />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/project" element={<Project />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/sign_up" element={<Sign_up />} />
+            <Route path="/push_project" element={<Push_project />}/>
+          </Routes>
       </Router>
     </AuthContext.Provider>
   );

@@ -1,19 +1,17 @@
-import React, {useEffect, useState, useContext} from 'react';
-import Button from 'react-bootstrap/Button';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import "./Sign_in.css"
 import "./Push_project.css"
-import { useHistory, Link} from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import { signUpUser } from '../services/service';
-import { generateRandomAvatarData } from "@fractalsoftware/random-avatar-generator";
 
-const handleSignUp = async (inputLogin, inputEmail, inputPassword, validation, auth, history,
+const handleSignUp = async (inputLogin, inputEmail, inputPassword, validation, auth, navigate,
                             setInputLogin, setInputEmail, setInputPassword, setValidation) => {
     let user = {
         login: inputLogin,
         email: inputEmail,
         password: inputPassword,
-        image: generateRandomAvatarData(16)
+        image: ""
     }
 
     let loggedUser = await signUpUser(user);
@@ -22,7 +20,7 @@ const handleSignUp = async (inputLogin, inputEmail, inputPassword, validation, a
 
     if(loggedUser != null) {
         auth.login(loggedUser.id);
-        history.push("/profile");
+        navigate.push("/profile");
     } else {
         setInputLogin("");
         setInputEmail("");
@@ -39,7 +37,7 @@ const Sign_up = () => {
     const [validation, setValidation] = useState("")
 
     const auth = useContext(AuthContext);
-    let history = useHistory();
+    let navigate = useNavigate();
 
     return (
     <div>
@@ -65,10 +63,10 @@ const Sign_up = () => {
                     <p className="validation">{validation}</p>
 
                     <div className="submit">
-                        <Link  to="/"><Button className="button">Back</Button></Link>
-                        <Button className="button" variant="success" onClick={() => 
-                                    handleSignUp(inputLogin, inputEmail, inputPassword, validation, auth, history,
-                                                setInputLogin, setInputEmail, setInputPassword, setValidation)}>Sign Up</Button>
+                        <Link  to="/"><div className="button">Back</div></Link>
+                        <div className="button" variant="success" onClick={() =>
+                                    handleSignUp(inputLogin, inputEmail, inputPassword, validation, auth, navigate,
+                                                setInputLogin, setInputEmail, setInputPassword, setValidation)}>Sign Up</div>
                     </div>
                 </div>
             </div>
