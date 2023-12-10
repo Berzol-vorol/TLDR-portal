@@ -12,12 +12,12 @@ const logoutHandle = (navigate, auth) => {
     navigate("/")
 }
 
-const ViewSummary = ({project, navigate}) => {
+const ViewSummary = ({summary, navigate}) => {
     return(
-            <div className="project" onClick={() => navigate("/project", { state : project.id })}>
-                <p className="project-text">{ project.title }</p>
-                <p className="project-text">Rating: { project.rating.toFixed(2) }</p>
-                <p className="project-text">Reviews: { project.reviews.length }</p>
+            <div className="summary" onClick={() => navigate("/summary", { state : summary.id })}>
+                <p className="summary-text">{ summary.title }</p>
+                <p className="summary-text">Rating: { summary.rating.toFixed(2) }</p>
+                <p className="summary-text">Reviews: { summary.reviews.length }</p>
             </div>
     )
 }
@@ -67,12 +67,12 @@ const Profile = () => {
                             <p className="profile-text">Rating: {user.rating.toFixed(2)}</p>
                         </div>
                     }
-                    <div className="project-button" onClick={() => navigate("/push_project")}>
-                        <p className="add-project-text">Add project</p>
+                    <div className="summary-button" onClick={() => navigate("/push_summary")}>
+                        <p className="add-summary-text">Add summary</p>
                     </div>
 
-                    <div className="project-button" onClick={() => logoutHandle(navigate, auth)}>
-                            <p className="add-project-text">Log out</p>
+                    <div className="summary-button" onClick={() => logoutHandle(navigate, auth)}>
+                            <p className="add-summary-text">Log out</p>
                     </div>
 
                 </div>
@@ -80,8 +80,8 @@ const Profile = () => {
                     <div className="summary-holder">
                         { loading ? <div className="company-name"><Loading/></div> :
                             summary.map(
-                                (project) => {
-                                    return <ViewSummary project={project} navigate={navigate}/>
+                                (summary) => {
+                                    return <ViewSummary summary={summary} navigate={navigate}/>
                                 }
                             )
                         }

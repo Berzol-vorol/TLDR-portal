@@ -41,7 +41,7 @@
     line-height: 55px;
 }
 
-.project-button{
+.summary-button{
     width: 250px;
     height: 100px;
     background-color: #282c34;
@@ -51,7 +51,7 @@
     text-align: center;
     line-height: 100px;
 }
-.project-button:hover{
+.summary-button:hover{
     box-shadow:
     1px 1px wheat,
     2px 2px wheat,
@@ -65,20 +65,20 @@
     transition: all 500ms ease;
     cursor: default;
 }
-.add-project-text{
+.add-summary-text{
     font-size: 30px;
     color: chocolate;
     margin: auto;
 }
 
-.projects-holder{
+.summarys-holder{
     display: flex;
     flex-direction: row;
     width: 100%;
     flex-wrap: wrap;
 }
 
-.project{
+.summary{
     width: 390px;
     height: 240px;
     border-radius: 20px;
@@ -90,12 +90,12 @@
     flex-direction: column;
     justify-content: space-around;
 }
-.project-text{
+.summary-text{
     color: #282c34;
     font-size: 30px;
     margin: 25px;
 }
-.project:hover{
+.summary:hover{
     box-shadow:
     1px 1px wheat,
     2px 2px wheat,

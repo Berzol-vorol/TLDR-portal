@@ -36,7 +36,7 @@
     font-size: 30px;
 }
 
-.add-project-button{
+.add-summary-button{
     width: 250px;
     height: 100px;
     background-color: #282c34;
@@ -45,7 +45,7 @@
     text-align: center;
     line-height: 100px;
 }
-.add-project-text{
+.add-summary-text{
     font-weight: bold;
     font-size: 30px;
     color: chocolate;

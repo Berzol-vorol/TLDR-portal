@@ -29,10 +29,10 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Sign_in />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/project" element={<Summary />} />
+            <Route path="/summary" element={<Summary />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/sign_up" element={<Sign_up />} />
-            <Route path="/push_project" element={<Push_summary />}/>
+            <Route path="/push_summary" element={<Push_summary />}/>
           </Routes>
       </Router>
     </AuthContext.Provider>

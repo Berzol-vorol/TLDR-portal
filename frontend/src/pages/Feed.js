@@ -8,24 +8,24 @@ import {AuthContext} from "../context/AuthContext";
 import {fetchAllSummaries, fetchUserById} from "../services/service";
 
 
-const CardGeneration = (project) => {
+const CardGeneration = (summary) => {
     let navigate = useNavigate();
 
     return(
 
         <div className={"main-div-card"}
-            onClick={() => navigate("/project", { state: { projectId : project.project.id }})}>
+            onClick={() => navigate("/summary", { state: { summaryId : summary.summary.id }})}>
             <div className={"main-div-tools"}>
                 {/*<img className="card-profile-img" src={`data:image/svg+xml;base64,${btoa(avatar)}`}/>*/}
                     <div className={"main-div-tools"} style={{margin: "0"}}>
                         <p className={"main-div-minor-text"} style={{textAlign: "left"}}>
-                            {project.project.user.login} | {project.project.user.rating.toFixed(2)} | {project.project.title}</p>
+                            {summary.summary.user.login} | {summary.summary.user.rating.toFixed(2)} | {summary.summary.title}</p>
                     </div>
                 <p className={"main-div-minor-text"} style={{pointerEvents: "none"}}>
-                    {project.project.rating.toFixed(2)} ★ | Reviews Count: {project.project.reviews.length}</p>
+                    {summary.summary.rating.toFixed(2)} ★ | Reviews Count: {summary.summary.reviews.length}</p>
             </div>
             <div className={"main-div-tools"}>
-                <div className={"card-description"}>{project.project.description}</div>
+                <div className={"card-description"}>{summary.summary.description}</div>
             </div>
         </div>
 
@@ -38,8 +38,8 @@ const SummariesPageGeneration = ({summary, page}) =>{
     for(let i = summary.length - 5*(page - 1) - 1; i > summary.length- 1 - 5*page && i >= 0; i--)
         _summary[i] = summary[i];
 
-    return  (_summary.map((p) => {
-            return <CardGeneration project={p}/>
+    return  (_summary.map((s) => {
+            return <CardGeneration summary={s}/>
         }
     ).reverse())
 }

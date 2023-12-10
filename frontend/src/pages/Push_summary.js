@@ -6,16 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import {addSummary} from "../services/service";
 import {AuthContext} from "../context/AuthContext";
 
-const handleSubmit = async (inputTitle, inputDescription, inputCode, navigate, auth) => {
-    let new_project = {
+const handleSubmit = async (inputTitle, inputDescription, inputText, navigate, auth) => {
+    let new_summary = {
         title: inputTitle,
         description: inputDescription,
-        code: inputCode,
+        text: inputText,
         tags : [],
         creator: auth.getUserId(),
     }
 
-    await addSummary(new_project);
+    await addSummary(new_summary);
     navigate("/profile")
 }
 
@@ -23,7 +23,7 @@ const Push_summary = () => {
     const auth = useContext(AuthContext);
     const [inputTitle, setInputTitle] = useState("");
     const [inputDescription, setInputDescription] = useState("");
-    const [inputCode, setInputCode] = useState("");
+    const [inputText, setInputText] = useState("");
 
     let navigate = useNavigate();
 
@@ -54,14 +54,14 @@ const Push_summary = () => {
                                    onChange={(event) => {setInputDescription(event.target.value)}} type="text" />
                         </div>
 
-                        <div className={"project-button"}
-                            onClick={() => handleSubmit(inputTitle, inputDescription, inputCode, navigate, auth)}>
-                            <p className={"add-project-text"}>Push project</p>
+                        <div className={"summary-button"}
+                            onClick={() => handleSubmit(inputTitle, inputDescription, inputText, navigate, auth)}>
+                            <p className={"add-summary-text"}>Push summary</p>
                         </div>
                     </div>
                     <div className={"main-content-right-column"}>
-                        <textarea className={"text-area"} value={inputCode} placeholder="Add your code here"
-                                  onChange={(event) => {setInputCode(event.target.value)}}/>
+                        <textarea className={"text-area"} value={inputText} placeholder="Add your text here"
+                                  onChange={(event) => {setInputText(event.target.value)}}/>
                     </div>
                 </div>
             </div>

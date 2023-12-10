@@ -17,7 +17,7 @@ const voteUpReview = async (review, navigate, location) => {
     await editReview(body)
     navigate("/profile", {state : location.state})
 
-    navigate("/project", {state : location.state})
+    navigate("/summary", {state : location.state})
 
 }
 
@@ -28,43 +28,43 @@ const voteDownReview = async (review, navigate, location) => {
 
     navigate("/profile", {state: location.state})
 
-    navigate("/project", {state: location.state})
+    navigate("/summary", {state: location.state})
 }
 
-const rankSummary = async (project, mark, navigate, location) => {
-    project.mark = mark;
+const rankSummary = async (summary, mark, navigate, location) => {
+    summary.mark = mark;
 
-    await editSummaryMark(project);
+    await editSummaryMark(summary);
 
     navigate("/profile", {state: location.state})
 
-    navigate("/project", {state: location.state})
+    navigate("/summary", {state: location.state})
 }
 
 
-const handleSubmit = async (project, inputValue, setSummary, setLoading, auth) => {
+const handleSubmit = async (summary, inputValue, setSummary, setLoading, auth) => {
     if(inputValue === "")
         return;
     let new_review = {
         content: inputValue,
-        project: project.id,
+        summary: summary.id,
         creator: auth.getUserId(),
     }
 
     setLoading(true)
     await addReview(new_review);
-    const _project = await fetchSummary(project.id);
+    const _summary = await fetchSummary(summary.id);
 
-    project.reviews.push(_project.reviews[_project.reviews.length-1])
+    summary.reviews.push(_summary.reviews[_summary.reviews.length-1])
 
-    let review = await fetchReview(project.reviews[project.reviews.length-1]);
-    project.review_data.push(review)
-    project.review_data[project.review_data.length-1].user = new_review.creator
-    // for(let i = 0;i < _project.reviews.length; i++) {
-    //     _project.review_data[j] = await fetchReview(_project.reviews[i]);
-    //     _project.review_data[j].user = await fetchUserById(_project.review_data[j].creator);
+    let review = await fetchReview(summary.reviews[summary.reviews.length-1]);
+    summary.review_data.push(review)
+    summary.review_data[summary.review_data.length-1].user = new_review.creator
+    // for(let i = 0;i < _summary.reviews.length; i++) {
+    //     _summary.review_data[j] = await fetchReview(_summary.reviews[i]);
+    //     _summary.review_data[j].user = await fetchUserById(_summary.review_data[j].creator);
     // }
-    //setSummary(_project);
+    //setSummary(_summary);
 
     setLoading(false)
 }
@@ -81,7 +81,7 @@ const LeftBarGeneration = ({review, navigate, location}) => {
 
 }
 
-const SummaryGeneration = ({project, setSummary, setLoading}) => {
+const SummaryGeneration = ({summary, setSummary, setLoading}) => {
     const auth = useContext(AuthContext);
     const location = useLocation();
     const [inputValue, setInputValue] = useState("");
@@ -92,14 +92,14 @@ const SummaryGeneration = ({project, setSummary, setLoading}) => {
     return(
         <div className={"right-bar"}>
             <div className={"main-div-tools"}>
-                <p className={"review-text"}>{project.title} </p>
-                <p className={"review-rating"} >Rating: {project.rating.toFixed(2)} ★</p>
+                <p className={"review-text"}>{summary.title} </p>
+                <p className={"review-rating"} >Rating: {summary.rating.toFixed(2)} ★</p>
             </div>
             <plaintext className={"review-text-div"}>
-                <pre>{project.code} </pre>
+                <pre>{summary.text} </pre>
             </plaintext>
             <div className={"main-div-tools"}>
-                <p className={"review-text"} style={{marginBottom: "30px", width: "850px"}}>Author: {project.user.login}</p>
+                <p className={"review-text"} style={{marginBottom: "30px", width: "850px"}}>Author: {summary.user.login}</p>
                 <div className={"rate-div"}>
                     <select className={"rate-select"} value={inputRank}
                             onChange={(event) => {setInputRank(event.target.value)}}>
@@ -110,7 +110,7 @@ const SummaryGeneration = ({project, setSummary, setLoading}) => {
                             <option>5</option>
                     </select>
                     <div  className="review-rate-button"
-                             onClick={() => rankSummary(project, inputRank, navigate, location)}>Rate</div>
+                             onClick={() => rankSummary(summary, inputRank, navigate, location)}>Rate</div>
                 </div>
             </div>
             <div className={"input-comment-div"}>
@@ -120,11 +120,11 @@ const SummaryGeneration = ({project, setSummary, setLoading}) => {
                 </div>
                 <div className={"input-comment-right-side"}>
                  <div style={{textAlign: "center"}} className={"submit-button"}  variant="success"
-                         onClick={() => handleSubmit(project, inputValue, setSummary, setLoading, auth)} >Publish</div>
+                         onClick={() => handleSubmit(summary, inputValue, setSummary, setLoading, auth)} >Publish</div>
                 </div>
             </div>
             {
-                project.review_data.map(review =>
+                summary.review_data.map(review =>
                     <div className={"comment-div"} key={review.id}>
                         <LeftBarGeneration review={review} navigate={navigate} location={location} />
                         <textarea disabled className={"comment-text"}>{review.content}</textarea>
@@ -137,7 +137,7 @@ const SummaryGeneration = ({project, setSummary, setLoading}) => {
 const Summary = () => {
     const auth = useContext(AuthContext);
     const location = useLocation();
-    const [project, setSummary] = useState(null)
+    const [summary, setSummary] = useState(null)
     const [loading, setLoading] = useState(true)
 
     let navigate = useNavigate();
@@ -148,15 +148,15 @@ const Summary = () => {
                 }
             }
             const getSummaryForUser = async () => {
-                const _project = await fetchSummary(location.state.projectId)
-                _project.user = await fetchUserById(_project.creator);
-                _project.review_data = [];
-                for(let i = 0;i < _project.reviews.length; i++) {
-                    let review = await fetchReview(_project.reviews[i]);
+                const _summary = await fetchSummary(location.state.summaryId)
+                _summary.user = await fetchUserById(_summary.creator);
+                _summary.review_data = [];
+                for(let i = 0;i < _summary.reviews.length; i++) {
+                    let review = await fetchReview(_summary.reviews[i]);
                     review.user = await fetchUserById(review.creator);
-                    _project.review_data.push(review);
+                    _summary.review_data.push(review);
                 }
-                setSummary(_project)
+                setSummary(_summary)
                 setLoading(false)
             }
             checkAuth()
@@ -174,7 +174,7 @@ const Summary = () => {
                 </div>
                 :
                 <div className={"main-div-wrapper"}>
-                    <SummaryGeneration  project = {project} setSummary = {setSummary} setLoading = {setLoading}/>
+                    <SummaryGeneration  summary = {summary} setSummary = {setSummary} setLoading = {setLoading}/>
                 </div>
             }
         </div>
