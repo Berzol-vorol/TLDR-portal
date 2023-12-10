@@ -1,6 +1,6 @@
 import React, { useState, useContext} from 'react';
 import "./Sign_in.css"
-import "./Push_project.css"
+import "./Push_summary.css"
 import { Link, useNavigate } from 'react-router-dom';
 import {AuthContext} from "../context/AuthContext";
 import {loginUser} from "../services/service";
@@ -16,7 +16,7 @@ const handleLogin = async (inputLogin, inputPassword, validation, setInputLogin,
 
     if(loggedUser != null) {
         auth.login(loggedUser.id);
-        navigate.push("/profile");
+        navigate("/profile");
     } else {
         setInputLogin("");
         setInputPassword("");

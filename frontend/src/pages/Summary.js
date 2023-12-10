@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import "./Project.css"
+import "./Summary.css"
 import "./Header.css"
 import Header from "./Header";
 import Loading from "./Loading";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import {AuthContext} from "../context/AuthContext";
-import {fetchProject, fetchReview, fetchUserById, addReview, editReview, editProjectMark} from "../services/service";
+import {fetchSummary, fetchReview, fetchUserById, addReview, editReview, editSummaryMark} from "../services/service";
 
-const voteUpReview = async (review, navigate) => {
+const voteUpReview = async (review, navigate, location) => {
     let body = {
         id: review.id,
         content:  review.content,
@@ -15,52 +15,34 @@ const voteUpReview = async (review, navigate) => {
     }
 
     await editReview(body)
-    navigate.push({
-        pathname : "/profile",
-        state : navigate.location.state
-    })
+    navigate("/profile", {state : location.state})
 
-    navigate.push({
-        pathname : "/project",
-        state : navigate.location.state
-    })
+    navigate("/project", {state : location.state})
 
 }
 
-const voteDownReview = async (review, navigate) => {
+const voteDownReview = async (review, navigate, location) => {
     review.mark--;
 
     await editReview(review)
 
-    navigate.push({
-        pathname: "/profile",
-        state: navigate.location.state
-    })
+    navigate("/profile", {state: location.state})
 
-    navigate.push({
-        pathname: "/project",
-        state: navigate.location.state
-    })
+    navigate("/project", {state: location.state})
 }
 
-const rankProject = async (project, mark, navigate) => {
+const rankSummary = async (project, mark, navigate, location) => {
     project.mark = mark;
 
-    await editProjectMark(project);
+    await editSummaryMark(project);
 
-    navigate.push({
-        pathname: "/profile",
-        state: navigate.location.state
-    })
+    navigate("/profile", {state: location.state})
 
-    navigate.push({
-        pathname: "/project",
-        state: navigate.location.state
-    })
+    navigate("/project", {state: location.state})
 }
 
 
-const handleSubmit = async (project, inputValue, setProject, setLoading, auth) => {
+const handleSubmit = async (project, inputValue, setSummary, setLoading, auth) => {
     if(inputValue === "")
         return;
     let new_review = {
@@ -71,7 +53,7 @@ const handleSubmit = async (project, inputValue, setProject, setLoading, auth) =
 
     setLoading(true)
     await addReview(new_review);
-    const _project = await fetchProject(project.id);
+    const _project = await fetchSummary(project.id);
 
     project.reviews.push(_project.reviews[_project.reviews.length-1])
 
@@ -82,25 +64,26 @@ const handleSubmit = async (project, inputValue, setProject, setLoading, auth) =
     //     _project.review_data[j] = await fetchReview(_project.reviews[i]);
     //     _project.review_data[j].user = await fetchUserById(_project.review_data[j].creator);
     // }
-    //setProject(_project);
+    //setSummary(_project);
 
     setLoading(false)
 }
 
-const LeftBarGeneration = ({review, navigate}) => {
+const LeftBarGeneration = ({review, navigate, location}) => {
     return(
         <div className={"left-bar"}>
-            <div className={"button-up"} onClick={() => voteUpReview(review, navigate)}>^</div>
+            <div className={"button-up"} onClick={() => voteUpReview(review, navigate, location)}>^</div>
             <p className={"mark-text"}>{review.mark}</p>
-            <div className={"button-down"} onClick={() => voteDownReview(review, navigate)}>v</div>
+            <div className={"button-down"} onClick={() => voteDownReview(review, navigate, location)}>v</div>
             <p className={"mark-text"}>{review.user.login}</p>
         </div>
     )
 
 }
 
-const ProjectGeneration = ({project, setProject, setLoading}) => {
+const SummaryGeneration = ({project, setSummary, setLoading}) => {
     const auth = useContext(AuthContext);
+    const location = useLocation();
     const [inputValue, setInputValue] = useState("");
     const [inputRank, setInputRank] = useState(5);
 
@@ -127,7 +110,7 @@ const ProjectGeneration = ({project, setProject, setLoading}) => {
                             <option>5</option>
                     </select>
                     <div  className="review-rate-button"
-                             onClick={() => rankProject(project, inputRank, navigate)}>Rate</div>
+                             onClick={() => rankSummary(project, inputRank, navigate, location)}>Rate</div>
                 </div>
             </div>
             <div className={"input-comment-div"}>
@@ -137,13 +120,13 @@ const ProjectGeneration = ({project, setProject, setLoading}) => {
                 </div>
                 <div className={"input-comment-right-side"}>
                  <div style={{textAlign: "center"}} className={"submit-button"}  variant="success"
-                         onClick={() => handleSubmit(project, inputValue, setProject, setLoading, auth)} >Publish</div>
+                         onClick={() => handleSubmit(project, inputValue, setSummary, setLoading, auth)} >Publish</div>
                 </div>
             </div>
             {
                 project.review_data.map(review =>
                     <div className={"comment-div"} key={review.id}>
-                        <LeftBarGeneration review={review} navigate={navigate} />
+                        <LeftBarGeneration review={review} navigate={navigate} location={location} />
                         <textarea disabled className={"comment-text"}>{review.content}</textarea>
                     </div>).reverse()
             }
@@ -151,21 +134,21 @@ const ProjectGeneration = ({project, setProject, setLoading}) => {
     )
 }
 
-const Project = () => {
+const Summary = () => {
     const auth = useContext(AuthContext);
-
-    const [project, setProject] = useState(null)
+    const location = useLocation();
+    const [project, setSummary] = useState(null)
     const [loading, setLoading] = useState(true)
 
     let navigate = useNavigate();
         useEffect ( () => {
             const checkAuth = async () => {
                 if(auth.getUserId() == null){
-                    navigate.push("/")
+                    navigate("/")
                 }
             }
-            const getProjectForUser = async () => {
-                const _project = await fetchProject(navigate.location.state)
+            const getSummaryForUser = async () => {
+                const _project = await fetchSummary(location.state.projectId)
                 _project.user = await fetchUserById(_project.creator);
                 _project.review_data = [];
                 for(let i = 0;i < _project.reviews.length; i++) {
@@ -173,11 +156,11 @@ const Project = () => {
                     review.user = await fetchUserById(review.creator);
                     _project.review_data.push(review);
                 }
-                setProject(_project)
+                setSummary(_project)
                 setLoading(false)
             }
             checkAuth()
-            getProjectForUser()
+            getSummaryForUser()
         },
         [auth, navigate]
     )
@@ -191,7 +174,7 @@ const Project = () => {
                 </div>
                 :
                 <div className={"main-div-wrapper"}>
-                    <ProjectGeneration  project = {project} setProject = {setProject} setLoading = {setLoading}/>
+                    <SummaryGeneration  project = {project} setSummary = {setSummary} setLoading = {setLoading}/>
                 </div>
             }
         </div>
@@ -199,4 +182,4 @@ const Project = () => {
   );
 }
 
-export default Project;
+export default Summary;

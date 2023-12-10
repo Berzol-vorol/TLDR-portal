@@ -2,8 +2,8 @@ import './App.css';
 
 import Feed from "./pages/Feed"
 import Profile from "./pages/Profile"
-import Push_project from "./pages/Push_project"
-import Project from "./pages/Project";
+import Push_summary from "./pages/Push_summary"
+import Summary from "./pages/Summary";
 import Sign_in from "./pages/Sign_in"
 import Sign_up from './pages/Sign_up';
 import {AuthContext} from './context/AuthContext';
@@ -29,10 +29,10 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Sign_in />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/project" element={<Project />} />
+            <Route path="/project" element={<Summary />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/sign_up" element={<Sign_up />} />
-            <Route path="/push_project" element={<Push_project />}/>
+            <Route path="/push_project" element={<Push_summary />}/>
           </Routes>
       </Router>
     </AuthContext.Provider>

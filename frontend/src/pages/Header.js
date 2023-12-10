@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import "./Header.css"
 import { Link, useNavigate } from "react-router-dom";
 import {AuthContext} from "../context/AuthContext";
-import {fetchProjectsForUser, fetchUserById} from "../services/service";
+import {fetchSummariesForUser, fetchUserById} from "../services/service";
 
 const Header = () => {
     const [avatar, setAvatar] = useState(null)
@@ -28,9 +28,9 @@ const Header = () => {
                     <p className="company-name" style={{pointerEvents: "none"}}>CoReTool</p>
                 </div>
                 <div className="header-right-block">
-                    <div className="company-name" onClick={() => navigate.push("/feed")}> Feed </div>
+                    <div className="company-name" onClick={() => navigate("/feed")}> Feed </div>
                     <p className={"company-name"} style={{pointerEvents: "none"}}>|</p>
-                    <div className="company-name" onClick={() => navigate.push("/profile")}> Profile</div>
+                    <div className="company-name" onClick={() => navigate("/profile")}> Profile</div>
                 </div>
             </div>
         </div>

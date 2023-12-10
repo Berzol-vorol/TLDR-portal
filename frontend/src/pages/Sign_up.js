@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import "./Sign_in.css"
-import "./Push_project.css"
+import "./Push_summary.css"
 import { useNavigate, Link} from 'react-router-dom';
 import { signUpUser } from '../services/service';
 
@@ -20,7 +20,7 @@ const handleSignUp = async (inputLogin, inputEmail, inputPassword, validation, a
 
     if(loggedUser != null) {
         auth.login(loggedUser.id);
-        navigate.push("/profile");
+        navigate("/profile");
     } else {
         setInputLogin("");
         setInputEmail("");

@@ -5,7 +5,7 @@ import Header from "./Header";
 import Loading from "./Loading";
 import { useNavigate } from 'react-router-dom';
 import {AuthContext} from "../context/AuthContext";
-import {fetchAllProjects, fetchUserById} from "../services/service";
+import {fetchAllSummaries, fetchUserById} from "../services/service";
 
 
 const CardGeneration = (project) => {
@@ -14,10 +14,7 @@ const CardGeneration = (project) => {
     return(
 
         <div className={"main-div-card"}
-            onClick={() => navigate.push({
-                 pathname : "/project",
-                 state : project.project.id
-             })}>
+            onClick={() => navigate("/project", { state: { projectId : project.project.id }})}>
             <div className={"main-div-tools"}>
                 {/*<img className="card-profile-img" src={`data:image/svg+xml;base64,${btoa(avatar)}`}/>*/}
                     <div className={"main-div-tools"} style={{margin: "0"}}>
@@ -35,21 +32,21 @@ const CardGeneration = (project) => {
     )
 }
 
-const ProjectsPageGeneration = ({projects, page}) =>{
-    let _projects = []
+const SummariesPageGeneration = ({summary, page}) =>{
+    let _summary = []
 
-    for(let i = projects.length - 5*(page - 1) - 1; i > projects.length- 1 - 5*page && i >= 0; i--)
-        _projects[i] = projects[i];
+    for(let i = summary.length - 5*(page - 1) - 1; i > summary.length- 1 - 5*page && i >= 0; i--)
+        _summary[i] = summary[i];
 
-    return  (_projects.map((p) => {
+    return  (_summary.map((p) => {
             return <CardGeneration project={p}/>
         }
     ).reverse())
 }
 
-const PagesBarGeneration = ({projects, page, setPage, navigate}) => {
+const PagesBarGeneration = ({summary, page, setPage, navigate}) => {
     let j = 0;
-    let i = projects.length/5;
+    let i = summary.length/5;
     let result = [];
 
     for(; i > 0; i--, j++){
@@ -83,7 +80,7 @@ const PagesBarGeneration = ({projects, page, setPage, navigate}) => {
 
 const Feed = () => {
     const auth = useContext(AuthContext)
-    const [projects, setProjects] = useState(null)
+    const [summary, setSummaries] = useState(null)
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
@@ -92,20 +89,20 @@ const Feed = () => {
 
             const checkForAuth = async () => {
                 if(auth.getUserId() == null){
-                    navigate.push("/")
+                    navigate("/")
                 }
             }
-            const getProjectsForUser = async () => {
-            const _projects = await fetchAllProjects()
-            for(let i = 0;i < _projects.length; i++) {
-                _projects[i].user = await fetchUserById(_projects[i].creator);
+            const getSummariesForUser = async () => {
+            const _summary = await fetchAllSummaries()
+            for(let i = 0;i < _summary.length; i++) {
+                _summary[i].user = await fetchUserById(_summary[i].creator);
             }
-            setProjects(_projects)
+            setSummaries(_summary)
             setLoading(false)
             }
 
             checkForAuth()
-            getProjectsForUser()
+            getSummariesForUser()
         },
         [auth, navigate]
     )
@@ -119,12 +116,12 @@ const Feed = () => {
             </div>
             <div className={"card-holder"}>
                 {  loading ? <div className="company-name"><Loading/></div> :
-                    <ProjectsPageGeneration projects={projects} page={page}/>
+                    <SummariesPageGeneration summary={summary} page={page}/>
                 }
 
             </div>
             { loading ? <div className="company-name"> </div> :
-                    <PagesBarGeneration   projects={projects} page={page} setPage = {setPage} navigate = {navigate} />
+                    <PagesBarGeneration   summary={summary} page={page} setPage = {setPage} navigate = {navigate} />
             }
         </div>
     </div>

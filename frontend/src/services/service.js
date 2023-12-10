@@ -1,40 +1,42 @@
-export async function fetchProjectsForUser(id) {
-    let response = await fetch('http://localhost:4000/api/projects/user/' + id)
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
+export async function fetchSummariesForUser(id) {
+    let response = await fetch(apiURL + '/api/summaries/user/' + id)
     let result = await response.json();
     console.log(result)
-    return result.projects;
+    return result.summaries;
 }
 
-export async function fetchAllProjects() {
-    let response = await fetch('http://localhost:4000/api/projects/')
+export async function fetchAllSummaries() {
+    let response = await fetch(apiURL + '/api/summaries/')
     let result = await response.json();
     console.log(result)
-    return result.projects;
+    return result.summaries;
 }
 
-export async function fetchProject(id) {
-    let response = await fetch('http://localhost:4000/api/projects/'+ id)
+export async function fetchSummary(id) {
+    let response = await fetch(apiURL + '/api/summaries/'+ id)
     let result = await response.json();
     console.log(result)
-    return result.project;
+    return result.summary;
 }
 
 export async function fetchUserById(id) {
-    let response = await fetch('http://localhost:4000/api/users/'+ id)
+    let response = await fetch(apiURL + '/api/users/'+ id)
     let result = await response.json();
     console.log(result)
     return result.user;
 }
 
 export async function fetchReview(id) {
-    let response = await fetch('http://localhost:4000/api/reviews/'+ id)
+    let response = await fetch(apiURL + '/api/reviews/'+ id)
     let result = await response.json();
     console.log(result)
     return result.review;
 }
 
 export async function addReview(review) {
-    let response = await fetch('http://localhost:4000/api/reviews', {
+    let response = await fetch(apiURL + '/api/reviews', {
         headers: { 'Content-Type': 'application/json' },
         method : 'POST',
         body: JSON.stringify(review)
@@ -44,22 +46,22 @@ export async function addReview(review) {
     return result.review;
 }
 
-export async function editProject(project) {
-    let response = await fetch('http://localhost:4000/api/projects/' + project.id , {
+export async function editSummary(summary) {
+    let response = await fetch(apiURL + '/api/summaries/' + summary.id , {
         headers: { 'Content-Type': 'application/json' },
         method : 'PATCH',
-        body: JSON.stringify(project)
+        body: JSON.stringify(summary)
     })
     let result = await response.json();
     console.log(result)
     return result.review;
 }
 
-export async function editProjectMark(project) {
-    let response = await fetch('http://localhost:4000/api/projects/mark/' + project.id , {
+export async function editSummaryMark(summary) {
+    let response = await fetch(apiURL + '/api/summaries/mark/' + summary.id , {
         headers: { 'Content-Type': 'application/json' },
         method : 'PATCH',
-        body: JSON.stringify(project)
+        body: JSON.stringify(summary)
     })
     let result = await response.json();
     console.log(result)
@@ -67,7 +69,7 @@ export async function editProjectMark(project) {
 }
 
 export async function editReview(review){
-    let response = await fetch('http://localhost:4000/api/reviews/' + review.id , {
+    let response = await fetch(apiURL + '/api/reviews/' + review.id , {
         headers: { 'Content-Type': 'application/json' },
         method : 'PATCH',
         body: JSON.stringify(review)
@@ -78,7 +80,7 @@ export async function editReview(review){
 }
 
 export async function loginUser(user) {
-    let response = await fetch('http://localhost:4000/api/users/login',{
+    let response = await fetch(apiURL + '/api/users/login',{
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
         body: JSON.stringify(user)
@@ -91,7 +93,7 @@ export async function loginUser(user) {
 }
 
 export async function signUpUser(user) {
-    let response = await fetch('http://localhost:4000/api/users/signup',{
+    let response = await fetch(apiURL + '/api/users/signup',{
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -105,7 +107,7 @@ export async function signUpUser(user) {
 
 export async function updateUserImg(user) {
 
-    let response = await fetch('http://localhost:4000/api/users/' + user.id,{
+    let response = await fetch(apiURL + '/api/users/' + user.id,{
         headers: { 'Content-Type': 'application/json' },
         method: 'PATCH',
         body: JSON.stringify(user)
@@ -117,14 +119,14 @@ export async function updateUserImg(user) {
 
 }
 
-export async function addProject(project){
-    let response = await fetch('http://localhost:4000/api/projects',{
+export async function addSummary(summary){
+    let response = await fetch(apiURL + '/api/summaries',{
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(project)
+        body: JSON.stringify(summary)
     })
 
     let result = await response.json();
     console.log(result)
-    return result.project;
+    return result.summary;
 }

@@ -1,9 +1,9 @@
 import React, {useContext, useState, useEffect} from 'react';
 import "./Header.css"
-import "./Push_project.css"
+import "./Push_summary.css"
 import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
-import {addProject} from "../services/service";
+import {addSummary} from "../services/service";
 import {AuthContext} from "../context/AuthContext";
 
 const handleSubmit = async (inputTitle, inputDescription, inputCode, navigate, auth) => {
@@ -15,11 +15,11 @@ const handleSubmit = async (inputTitle, inputDescription, inputCode, navigate, a
         creator: auth.getUserId(),
     }
 
-    await addProject(new_project);
-    navigate.push("/profile")
+    await addSummary(new_project);
+    navigate("/profile")
 }
 
-const Push_project = () => {
+const Push_summary = () => {
     const auth = useContext(AuthContext);
     const [inputTitle, setInputTitle] = useState("");
     const [inputDescription, setInputDescription] = useState("");
@@ -30,7 +30,7 @@ const Push_project = () => {
     useEffect( () => {
         const checkAuth = async () => {
             if(auth.getUserId() == null){
-                navigate.push("/")
+                navigate("/")
             }
         }
         checkAuth()
@@ -44,7 +44,7 @@ const Push_project = () => {
                 <div className={"main-content"}>
                     <div className={"main-content-left-column"}>
                         <div>
-                            <label className={"input-label"}>Project title</label>
+                            <label className={"input-label"}>Summary title</label>
                             <input className={"input-data"} value={inputTitle}
                                    onChange={(event) => {setInputTitle(event.target.value)}} type="text" />
                         </div>
@@ -69,4 +69,4 @@ const Push_project = () => {
     );
 }
 
-export default Push_project;
+export default Push_summary;
