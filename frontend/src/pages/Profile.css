@@ -1,0 +1,111 @@
+.main{
+    width: 100%;
+    min-height: 890px;
+    height: 890px;
+}
+.main-content{
+    width: 1200px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+}
+.main-content-left{
+    width: 300px;
+    background-color: chocolate;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+}
+.main-content-right{
+    width: 1000px;
+    background-color: #282c34;
+    padding: 20px;
+    height: 100%;
+}
+
+.profile-img{
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+    background-color: black;
+    margin: auto;
+}
+.profile-text{
+    font-size: 60px;
+    color: #282c34;
+    margin: 20px;
+    line-height: 55px;
+}
+
+.summary-button{
+    width: 250px;
+    height: 100px;
+    background-color: #282c34;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+    line-height: 100px;
+}
+.summary-button:hover{
+    box-shadow:
+    1px 1px wheat,
+    2px 2px wheat,
+    3px 3px wheat,
+    4px 4px wheat,
+    5px 5px wheat,
+    6px 6px wheat,
+    7px 7px wheat;
+    -webkit-transform: translateX(-7px);
+    transform: translateX(-7px);
+    transition: all 500ms ease;
+    cursor: default;
+}
+.add-summary-text{
+    font-size: 30px;
+    color: chocolate;
+    margin: auto;
+}
+
+.summarys-holder{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.summary{
+    width: 390px;
+    height: 240px;
+    border-radius: 20px;
+    background-color: chocolate;
+    margin: 20px;
+    text-align: center;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.summary-text{
+    color: #282c34;
+    font-size: 30px;
+    margin: 25px;
+}
+.summary:hover{
+    box-shadow:
+    1px 1px wheat,
+    2px 2px wheat,
+    3px 3px wheat,
+    4px 4px wheat,
+    5px 5px wheat,
+    6px 6px wheat,
+    7px 7px wheat;
+    -webkit-transform: translateX(-7px);
+    transform: translateX(-7px);
+    transition: all 500ms ease;
+    cursor: default;
+}
