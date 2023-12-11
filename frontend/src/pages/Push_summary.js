@@ -3,13 +3,13 @@ import "./Header.css"
 import "./Push_summary.css"
 import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
-import {addSummary} from "../services/service";
+import {addSummary, generateSummary} from "../services/service";
 import {AuthContext} from "../context/AuthContext";
 
-const handleSubmit = async (inputTitle, inputDescription, inputText, navigate, auth) => {
+const handleSubmit = async (inputTitle, inputResourceUrl, inputText, navigate, auth) => {
     let new_summary = {
         title: inputTitle,
-        description: inputDescription,
+        resource_url: inputResourceUrl,
         text: inputText,
         tags : [],
         creator: auth.getUserId(),
@@ -19,10 +19,18 @@ const handleSubmit = async (inputTitle, inputDescription, inputText, navigate, a
     navigate("/profile")
 }
 
+const handleGenerateAISummary = async (inputResourceUrl, setInputText) => {
+    let body = {
+        resource_url: inputResourceUrl
+    }
+    let result = await generateSummary(body);
+    setInputText(result)
+}
+
 const Push_summary = () => {
     const auth = useContext(AuthContext);
     const [inputTitle, setInputTitle] = useState("");
-    const [inputDescription, setInputDescription] = useState("");
+    const [inputResourceUrl, setInputResourceUrl] = useState("");
     const [inputText, setInputText] = useState("");
 
     let navigate = useNavigate();
@@ -49,13 +57,18 @@ const Push_summary = () => {
                                    onChange={(event) => {setInputTitle(event.target.value)}} type="text" />
                         </div>
                         <div>
-                            <label className={"input-label"}>Description</label>
-                            <input className={"input-data"} value={inputDescription}
-                                   onChange={(event) => {setInputDescription(event.target.value)}} type="text" />
+                            <label className={"input-label"}>Resource Url</label>
+                            <input className={"input-data"} value={inputResourceUrl}
+                                   onChange={(event) => {setInputResourceUrl(event.target.value)}} type="text" />
                         </div>
 
                         <div className={"summary-button"}
-                            onClick={() => handleSubmit(inputTitle, inputDescription, inputText, navigate, auth)}>
+                            onClick={() => handleGenerateAISummary(inputResourceUrl, setInputText)}>
+                            <p className={"add-summary-text"}>Get AI summary</p>
+                        </div>
+
+                        <div className={"summary-button"}
+                            onClick={() => handleSubmit(inputTitle, inputResourceUrl, inputText, navigate, auth)}>
                             <p className={"add-summary-text"}>Push summary</p>
                         </div>
                     </div>

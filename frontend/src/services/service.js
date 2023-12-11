@@ -130,3 +130,15 @@ export async function addSummary(summary){
     console.log(result)
     return result.summary;
 }
+
+export async function generateSummary(summary){
+    let response = await fetch(apiURL + '/api/summaries/auto_generated',{
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(summary)
+    })
+
+    let result = await response.json();
+    console.log(result)
+    return result.summary;
+}
