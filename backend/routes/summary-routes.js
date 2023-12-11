@@ -16,6 +16,8 @@ router.get('/user/:uid', summariesControllers.getSummariesByUserId);
 
 router.post('/', summariesControllers.createSummary);
 
+router.post('/auto_generated', summariesControllers.generateTLDR);
+
 router.patch('/:pid', summariesControllers.updateSummary);
 
 router.patch('/mark/:pid', summariesControllers.addMark);
