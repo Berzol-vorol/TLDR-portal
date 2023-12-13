@@ -81,31 +81,48 @@ const PagesBarGeneration = ({summaries, page, setPage, navigate}) => {
 const Feed = () => {
     const auth = useContext(UserContext)
     const [summaries, setSummaries] = useState(null)
+    const [filteredData, setFilteredData] = useState(null);
+    const [searchNameTerm, setSearchNameTerm] = useState('');
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
     let navigate = useNavigate();
-        useEffect ( () => {
+    useEffect ( () => {
 
-            const checkForAuth = async () => {
-                if(auth.getUserId() == null){
-                    navigate("/")
-                }
+        const checkForAuth = async () => {
+            if(auth.getUserId() == null){
+                navigate("/")
             }
-            const getSummariesForUser = async () => {
+        }
+
+        const getSummariesForUser = async () => {
             const _summaries = await fetchAllSummaries()
-            for(let i = 0;i < _summaries.length; i++) {
+            for(let i = 0; i < _summaries.length; i++) {
                 _summaries[i].user = await fetchUserById(_summaries[i].creator);
             }
             setSummaries(_summaries)
+            setFilteredData(_summaries)
             setLoading(false)
-            }
+        }
 
-            checkForAuth()
-            getSummariesForUser()
-        },
-        [auth, navigate]
-    )
+        checkForAuth()
+        getSummariesForUser()
+        }, [auth, navigate])
+
+    useEffect(() => {
+        if (loading === false) {
+            console.log("SUM", summaries)
+            const filtered = summaries.filter(item =>
+                Object.values(item).some(value => value.toString().toLowerCase().includes(searchNameTerm.toLowerCase()))
+            );
+            setFilteredData(filtered);
+        }
+    }, [summaries, searchNameTerm]);
+
+
+    const handleSearch = event => {
+        setSearchNameTerm(event.target.value);
+    };
 
     return (
     <div>
@@ -113,15 +130,22 @@ const Feed = () => {
         <div className={"main-div"}>
             <div className={"main-div-tools"}>
                 <p className={"main-div-major-text"}>New and Popular Code:</p>
+                <input
+                    type="text"
+                    value={searchNameTerm}
+                    placeholder="Find by name"
+                    onChange={handleSearch}
+                    className={"custom-input"}
+                />
             </div>
             <div className={"card-holder"}>
-                {  loading ? <div className="company-name"><Loading/></div> :
-                    <SummariesPageGeneration summaries={summaries} page={page}/>
-                }
+            {  loading ? <div className="company-name"><Loading/></div> :
+                <SummariesPageGeneration summaries={filteredData} page={page}/>
+            }
 
             </div>
             { loading ? <div className="company-name"> </div> :
-                    <PagesBarGeneration summaries={summaries} page={page} setPage = {setPage} navigate = {navigate} />
+                <PagesBarGeneration summaries={summaries} page={page} setPage = {setPage} navigate = {navigate} />
             }
         </div>
     </div>
