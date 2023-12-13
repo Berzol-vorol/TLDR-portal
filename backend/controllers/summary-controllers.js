@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const axios = require('axios');
 
 const HttpError = require('../models/http-error');
 const Summary = require('../models/summary');
@@ -239,6 +240,36 @@ const deleteSummary = async (req, res, next) => {
     res.status(200).json({ message: 'Deleted successfully.' });    
 }
 
+const generateTLDR = async (req, res, next) => {
+    const { resource_url } = req.body
+
+    const options = {
+      method: 'POST',
+      url: 'https://tldrthis.p.rapidapi.com/v1/model/abstractive/summarize-url/',
+      headers: {
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': 'ffed3221bbmshd854c1a4e93fbccp1d23b6jsn128935f7843f',
+        'X-RapidAPI-Host': 'tldrthis.p.rapidapi.com'
+      },
+      data: {
+        url: resource_url,
+        // url: 'https://techcrunch.com/2019/08/12/verizon-is-selling-tumblr-to-wordpress-parent-automattic/',
+        min_length: 100,
+        max_length: 300,
+        is_detailed: false
+      }
+    };
+
+    let response;
+    try {
+        response = await axios.request(options);
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+    res.json({summary: response.data.summary[0]})
+}
+
 exports.getSummaryById = getSummaryById;
 exports.getAllSummaries = getAllSummaries;
 exports.getSummariesByUserId = getSummariesByUserId;
@@ -246,3 +277,4 @@ exports.createSummary = createSummary;
 exports.updateSummary = updateSummary;
 exports.deleteSummary = deleteSummary;
 exports.addMark = addMark;
+exports.generateTLDR = generateTLDR;
