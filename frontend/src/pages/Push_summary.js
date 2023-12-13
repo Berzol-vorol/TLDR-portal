@@ -30,7 +30,7 @@ const handleGenerateAISummary = async (inputResourceUrl, setInputText) => {
 const Push_summary = () => {
     const auth = useContext(UserContext);
     const [inputTitle, setInputTitle] = useState("");
-    const [inputDescription, setInputDescription] = useState("");
+    const [inputResourceUrl, setInputResourceUrl] = useState("");
     const [inputText, setInputText] = useState("");
 
     let navigate = useNavigate();
