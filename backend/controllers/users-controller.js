@@ -5,23 +5,30 @@ const HttpError = require('../models/http-error');
 const User = require('../models/user');
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
+    const token = req.params.token;
 
     if (!token) {
         return res.status(403).json({ success: false, message: 'Token not provided' });
     }
 
-    jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
-        if (err) {
-            if (err.name === 'TokenExpiredError') {
-                return res.status(401).json({ success: false, message: 'Token expired' });
+    try {
+        jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
+            if (err) {
+                if (err.name === 'TokenExpiredError') {
+                    return res.status(401).json({success: false, message: 'Token expired'});
+                }
+                return res.status(401).json({success: false, message: 'Invalid token'});
             }
-            return res.status(401).json({ success: false, message: 'Invalid token' });
-        }
 
-        req.userId = decoded.userId;
-        next();
-    });
+            return res.json({success: true, userId: decoded.userId});
+        });
+    } catch (err){
+        const error = new HttpError(
+            'Something went wrong',
+            500
+        );
+        return next(error);
+    }
 };
 
 const getUserById = async (req, res, next) => {
