@@ -30,7 +30,7 @@ app.use((error, req, res, next) => {
   });
 
 mongoose
-    .connect('mongodb+srv://bernadadmytryi:9u21knGf7tb3ycv6@fivard.inueahe.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+    .connect(process.env.DB_URL, { useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => {
         app.listen(5001);
     })
