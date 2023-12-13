@@ -4,6 +4,26 @@ const jwt = require('jsonwebtoken')
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 
+const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(403).json({ success: false, message: 'Token not provided' });
+    }
+
+    jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                return res.status(401).json({ success: false, message: 'Token expired' });
+            }
+            return res.status(401).json({ success: false, message: 'Invalid token' });
+        }
+
+        req.userId = decoded.userId;
+        next();
+    });
+};
+
 const getUserById = async (req, res, next) => {
     const id = req.params.uid; // {pid: 'p1'}
 
@@ -170,6 +190,7 @@ const updateUserImage = async (req, res, next) => {
     res.status(200).json({user: user.toObject({ getters: true })});
 }
 
+exports.verifyToken = verifyToken;
 exports.getUserById = getUserById;
 exports.getUsers = getUsers;
 exports.signup = signup;

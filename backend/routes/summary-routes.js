@@ -1,5 +1,6 @@
 const express = require('express');
 const summariesControllers = require('../controllers/summary-controllers');
+const {verifyToken} = require("../controllers/users-controller");
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/', summariesControllers.getAllSummaries);
 router.get('/user/:uid', summariesControllers.getSummariesByUserId);
 
 // position is important!!!! block all the requests comming to below without token 
-// router.use(checkAuth);
+router.use(verifyToken);
 
 router.post('/', summariesControllers.createSummary);
 
