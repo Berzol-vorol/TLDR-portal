@@ -8,6 +8,8 @@ router.get('/:uid', usersController.getUserById);
 
 router.get('/', usersController.getUsers);
 
+router.get('/checkAuth', usersController.verifyToken)
+
 router.post('/login', usersController.login);
 
 router.post('/signup', usersController.signup);
