@@ -4,7 +4,7 @@ import "./Header.css"
 import Header from "./Header";
 import Loading from "./Loading";
 import { useNavigate, useLocation } from 'react-router-dom'
-import {AuthContext} from "../context/AuthContext";
+import {UserContext} from "../context/UserContext";
 import {fetchSummary, fetchReview, fetchUserById, addReview, editReview, editSummaryMark} from "../services/service";
 
 const voteUpReview = async (review, navigate, location) => {
@@ -82,7 +82,7 @@ const LeftBarGeneration = ({review, navigate, location}) => {
 }
 
 const SummaryGeneration = ({summary, setSummary, setLoading}) => {
-    const auth = useContext(AuthContext);
+    const auth = useContext(UserContext);
     const location = useLocation();
     const [inputValue, setInputValue] = useState("");
     const [inputRank, setInputRank] = useState(5);
@@ -135,7 +135,7 @@ const SummaryGeneration = ({summary, setSummary, setLoading}) => {
 }
 
 const Summary = () => {
-    const auth = useContext(AuthContext);
+    const auth = useContext(UserContext);
     const location = useLocation();
     const [summary, setSummary] = useState(null)
     const [loading, setLoading] = useState(true)

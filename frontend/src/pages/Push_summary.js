@@ -4,7 +4,7 @@ import "./Push_summary.css"
 import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 import {addSummary} from "../services/service";
-import {AuthContext} from "../context/AuthContext";
+import {UserContext} from "../context/UserContext";
 
 const handleSubmit = async (inputTitle, inputDescription, inputText, navigate, auth) => {
     let new_summary = {
@@ -20,7 +20,7 @@ const handleSubmit = async (inputTitle, inputDescription, inputText, navigate, a
 }
 
 const Push_summary = () => {
-    const auth = useContext(AuthContext);
+    const auth = useContext(UserContext);
     const [inputTitle, setInputTitle] = useState("");
     const [inputDescription, setInputDescription] = useState("");
     const [inputText, setInputText] = useState("");

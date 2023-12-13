@@ -6,10 +6,8 @@ export const useAuth = () => {
     return localStorage.getItem('userId')
   }
   const login = (uid) => {
-    console.log("djsfhds")
     setUserId(uid);
     localStorage.setItem('userId',uid);
-    console.log(userId)
   };
 
   const logout = () => {

@@ -2,28 +2,8 @@ import React, { useState, useContext} from 'react';
 import "./Sign_in.css"
 import "./Push_summary.css"
 import { Link, useNavigate } from 'react-router-dom';
-import {AuthContext} from "../context/AuthContext";
+import {UserContext} from "../context/UserContext";
 import {loginUser} from "../services/service";
-
-const handleLogin = async (inputLogin, inputPassword, validation, setInputLogin, setInputPassword, setValidation, navigate, auth) => {
-    let user =  {
-        login : inputLogin,
-        password : inputPassword
-    }
-
-    let loggedUser = await loginUser(user);
-
-
-    if(loggedUser != null) {
-        auth.login(loggedUser.id);
-        navigate("/profile");
-    } else {
-        setInputLogin("");
-        setInputPassword("");
-        setValidation("Incorrect login or password")
-    }
-
-}
 
 const Sign_in = () => {
     const [inputLogin, setInputLogin] = useState("");
@@ -31,8 +11,29 @@ const Sign_in = () => {
     const [validation, setValidation] = useState("")
     const [loading, setLoading] = useState(true)
 
-    const auth = useContext(AuthContext);
+    const auth = useContext(UserContext);
     let navigate = useNavigate();
+
+    const handleLogin = async () => {
+        let user =  {
+            login : inputLogin,
+            password : inputPassword
+        }
+
+        let loggedUser = await loginUser(user);
+
+
+        if(loggedUser != null) {
+            auth.login(loggedUser.id);
+            auth.setUser(loggedUser);
+            navigate("/feed");
+        } else {
+            setInputLogin("");
+            setInputPassword("");
+            setValidation("Incorrect login or password");
+        }
+
+    }
 
 
     return (
@@ -53,8 +54,7 @@ const Sign_in = () => {
                         <p className="validation">{validation}</p>
                         <div className="submit">
                             <div className="button" variant="success"
-                                onClick={() => handleLogin(inputLogin, inputPassword, validation,
-                                    setInputLogin, setInputPassword, setValidation, navigate, auth)} >Sign In</div>
+                                onClick={() => handleLogin()} >Sign In</div>
                             <Link to="/sign_up"><div className="button" variant="success" >Sign Up</div></Link>
                         </div>
                     </div>
