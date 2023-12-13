@@ -3,59 +3,54 @@ import "./Header.css"
 import "./Profile.css"
 import Header from "./Header"
 import Loading from "./Loading";
-import { fetchSummariesForUser, fetchUserById } from "../services/service";
+import { fetchSummariesForUser } from "../services/service";
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext';
-
-const logoutHandle = (navigate, auth) => {
-    auth.logout();
-    navigate("/")
-}
+import { UserContext } from '../context/UserContext';
 
 const ViewSummary = ({summary, navigate}) => {
     return(
-            <div className="summary" onClick={() => navigate("/summary", { state : summary.id })}>
-                <p className="summary-text">{ summary.title }</p>
-                <p className="summary-text">Rating: { summary.rating.toFixed(2) }</p>
-                <p className="summary-text">Reviews: { summary.reviews.length }</p>
-            </div>
+        <div className="summary" onClick={() => navigate("/summary", { state : summary.id })}>
+            <p className="summary-text">{ summary.title }</p>
+            <p className="summary-text">Rating: { summary.rating.toFixed(2) }</p>
+            <p className="summary-text">Reviews: { summary.reviews.length }</p>
+        </div>
     )
 }
 
 const Profile = () => {
-    const auth = useContext(AuthContext);
-    const [summary, setSummaries] = useState(null)
+    const { user, logout } = useContext(UserContext);
+    const [summaries, setSummaries] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [user, setUser] = useState(null)
     let navigate = useNavigate();
 
-
-    useEffect (() => {
+    useEffect ( () => {
         const checkForAuth = async () => {
-            if(auth.getUserId() == null){
+            if(user == null){
                 navigate("/")
             }
         }
 
-        const getUser = async () => {
-            const _user = await fetchUserById(auth.getUserId())
-            setUser(_user)
-
-            const _summary = await fetchSummariesForUser(auth.getUserId())
-            setSummaries(_summary)
-            if(_summary == null){
+        const getSummaries = async () => {
+            const _summaries = await fetchSummariesForUser(user.id)
+            setSummaries(_summaries)
+            if(_summaries == null){
                 setSummaries([])
             }
             setLoading(false)
         }
 
-        checkForAuth()
-        getUser()
+        checkForAuth();
+        getSummaries();
         },
-        [auth, navigate]
+        [navigate]
     )
-    return (
 
+    const logoutHandle = () => {
+        logout();
+        navigate("/");
+    }
+
+    return (
     <div>
         { Header() }
         <div className="main">
@@ -71,7 +66,7 @@ const Profile = () => {
                         <p className="add-summary-text">Add summary</p>
                     </div>
 
-                    <div className="summary-button" onClick={() => logoutHandle(navigate, auth)}>
+                    <div className="summary-button" onClick={() => logoutHandle(navigate)}>
                             <p className="add-summary-text">Log out</p>
                     </div>
 
@@ -79,9 +74,9 @@ const Profile = () => {
                 <div className="main-content-right">
                     <div className="summary-holder">
                         { loading ? <div className="company-name"><Loading/></div> :
-                            summary.map(
-                                (summary) => {
-                                    return <ViewSummary summary={summary} navigate={navigate}/>
+                            summaries.map(
+                                (s) => {
+                                    return <ViewSummary summary={s} navigate={navigate}/>
                                 }
                             )
                         }

@@ -4,7 +4,7 @@ import "./Header.css"
 import Header from "./Header";
 import Loading from "./Loading";
 import { useNavigate } from 'react-router-dom';
-import {AuthContext} from "../context/AuthContext";
+import {UserContext} from "../context/UserContext";
 import {fetchAllSummaries, fetchUserById} from "../services/service";
 
 
@@ -32,21 +32,21 @@ const CardGeneration = (summary) => {
     )
 }
 
-const SummariesPageGeneration = ({summary, page}) =>{
-    let _summary = []
+const SummariesPageGeneration = ({summaries, page}) =>{
+    let _summaries = []
 
-    for(let i = summary.length - 5*(page - 1) - 1; i > summary.length- 1 - 5*page && i >= 0; i--)
-        _summary[i] = summary[i];
+    for(let i = summaries.length - 5*(page - 1) - 1; i > summaries.length- 1 - 5*page && i >= 0; i--)
+        _summaries[i] = summaries[i];
 
-    return  (_summary.map((s) => {
+    return  (_summaries.map((s) => {
             return <CardGeneration summary={s}/>
         }
     ).reverse())
 }
 
-const PagesBarGeneration = ({summary, page, setPage, navigate}) => {
+const PagesBarGeneration = ({summaries, page, setPage, navigate}) => {
     let j = 0;
-    let i = summary.length/5;
+    let i = summaries.length/5;
     let result = [];
 
     for(; i > 0; i--, j++){
@@ -79,8 +79,8 @@ const PagesBarGeneration = ({summary, page, setPage, navigate}) => {
 }
 
 const Feed = () => {
-    const auth = useContext(AuthContext)
-    const [summary, setSummaries] = useState(null)
+    const auth = useContext(UserContext)
+    const [summaries, setSummaries] = useState(null)
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
@@ -93,11 +93,11 @@ const Feed = () => {
                 }
             }
             const getSummariesForUser = async () => {
-            const _summary = await fetchAllSummaries()
-            for(let i = 0;i < _summary.length; i++) {
-                _summary[i].user = await fetchUserById(_summary[i].creator);
+            const _summaries = await fetchAllSummaries()
+            for(let i = 0;i < _summaries.length; i++) {
+                _summaries[i].user = await fetchUserById(_summaries[i].creator);
             }
-            setSummaries(_summary)
+            setSummaries(_summaries)
             setLoading(false)
             }
 
@@ -116,12 +116,12 @@ const Feed = () => {
             </div>
             <div className={"card-holder"}>
                 {  loading ? <div className="company-name"><Loading/></div> :
-                    <SummariesPageGeneration summary={summary} page={page}/>
+                    <SummariesPageGeneration summaries={summaries} page={page}/>
                 }
 
             </div>
             { loading ? <div className="company-name"> </div> :
-                    <PagesBarGeneration   summary={summary} page={page} setPage = {setPage} navigate = {navigate} />
+                    <PagesBarGeneration summaries={summaries} page={page} setPage = {setPage} navigate = {navigate} />
             }
         </div>
     </div>
