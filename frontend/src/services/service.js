@@ -28,6 +28,13 @@ export async function fetchUserById(id) {
     return result.user;
 }
 
+export async function fetchUserByToken(token) {
+    let response = await fetch(apiURL + '/api/users/check_auth/'+ token)
+    let result = await response.json();
+    console.log(result)
+    return result;
+}
+
 export async function fetchReview(id) {
     let response = await fetch(apiURL + '/api/reviews/'+ id)
     let result = await response.json();
