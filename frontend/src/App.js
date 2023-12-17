@@ -10,35 +10,55 @@ import Protected from './pages/Protected';
 
 import { UserProvider, useAuth } from './context/UserContext';
 
-import { fetchUserByToken } from "./services/service";
+import {fetchUserById, fetchUserByToken} from "./services/service";
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
+import axios from "axios";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const { user, setUser, token } = useAuth();
+    const [token, setToken_] = useState(localStorage.getItem("token"));
+    const { user, setUser, setToken } = useAuth();
+
+    const fetchUser = async () => {
+        const result = await fetchUserByToken(token);
+        console.log(result);
+        if (result.success) {
+            console.log(result.userId);
+            const user_ = await fetchUserById(result.userId);
+            console.log(user_);
+            setUser(user_);
+            setIsLoggedIn(true);
+        }
+        else {
+            setIsLoggedIn(false);
+        }
+    }
 
     useEffect(() => {
         if (user) {
+            setUser(user);
             setIsLoggedIn(true);
         } else {
             if (token) {
-                const _user = fetchUserByToken(token);
-                if (_user) {
-                    setUser(_user);
-                    setIsLoggedIn(true);
-                }
-                else {
-                    setIsLoggedIn(false);
-                }
+                axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+                localStorage.setItem('token',token);
+                setToken(token);
+
+                fetchUser().catch(console.error);
+                console.log(user);
             }
-            else setIsLoggedIn(false);
+            else {
+                delete axios.defaults.headers.common["Authorization"];
+                localStorage.removeItem('token')
+                setIsLoggedIn(false);
+            }
         }
-    }, [user, token]);
+    }, [user, token, fetchUser]);
 
     return (
     <UserProvider>

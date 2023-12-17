@@ -79,19 +79,12 @@ const PagesBarGeneration = ({summaries, page, setPage, navigate}) => {
 }
 
 const Feed = () => {
-    const auth = useContext(UserContext)
     const [summaries, setSummaries] = useState(null)
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
     let navigate = useNavigate();
         useEffect ( () => {
-
-            const checkForAuth = async () => {
-                if(auth.getUserId() == null){
-                    navigate("/")
-                }
-            }
             const getSummariesForUser = async () => {
             const _summaries = await fetchAllSummaries()
             for(let i = 0;i < _summaries.length; i++) {
@@ -100,11 +93,9 @@ const Feed = () => {
             setSummaries(_summaries)
             setLoading(false)
             }
-
-            checkForAuth()
             getSummariesForUser()
         },
-        [auth, navigate]
+        [navigate]
     )
 
     return (
