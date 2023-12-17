@@ -4,6 +4,33 @@ const jwt = require('jsonwebtoken')
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 
+const verifyToken = (req, res, next) => {
+    const token = req.params.token;
+
+    if (!token) {
+        return res.status(403).json({ success: false, message: 'Token not provided' });
+    }
+
+    try {
+        jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
+            if (err) {
+                if (err.name === 'TokenExpiredError') {
+                    return res.status(401).json({success: false, message: 'Token expired'});
+                }
+                return res.status(401).json({success: false, message: 'Invalid token'});
+            }
+
+            return res.json({success: true, userId: decoded.userId});
+        });
+    } catch (err){
+        const error = new HttpError(
+            'Something went wrong',
+            500
+        );
+        return next(error);
+    }
+};
+
 const getUserById = async (req, res, next) => {
     const id = req.params.uid; // {pid: 'p1'}
 
@@ -82,7 +109,7 @@ const signup = async (req, res, next) => {
     try{
         token = jwt.sign(
             { userId: createdUser.id, login: createdUser.login },
-            'supersecret_dont_share', 
+            process.env.JWT_PRIVATE_KEY,
             { expiresIn: '1h' }
             );
     } catch(err){
@@ -112,7 +139,7 @@ const login = async (req, res, next) => {
     try{
         token = jwt.sign(
             { userId: existingUser.id, login: existingUser.login },
-            'supersecret_dont_share', 
+            process.env.JWT_PRIVATE_KEY,
             { expiresIn: '1h' }
             );
     } catch(err){
@@ -170,6 +197,7 @@ const updateUserImage = async (req, res, next) => {
     res.status(200).json({user: user.toObject({ getters: true })});
 }
 
+exports.verifyToken = verifyToken;
 exports.getUserById = getUserById;
 exports.getUsers = getUsers;
 exports.signup = signup;
