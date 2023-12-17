@@ -4,6 +4,7 @@ import "./Push_summary.css"
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from "../context/UserContext";
 import { loginUser } from "../services/service";
+import Header from "./Header";
 
 const Sign_in = () => {
     const [inputLogin, setInputLogin] = useState("");
@@ -38,25 +39,30 @@ const Sign_in = () => {
 
 
     return (
-        <div>
-            <div className="main1">
-                <div className="container1">
-                    <div className="inside-container">
-                        <p className="text">
-                            Login
-                        </p>
-                        <input className={"input-data"} value={inputLogin}
-                                onChange={(event) => {setInputLogin(event.target.value)}} type="text" />
-                        <p className="text">
-                            Password
-                        </p>
-                        <input className={"input-data"} value={inputPassword} 
-                                onChange={(event) => {setInputPassword(event.target.value)}} type="password" />
-                        <p className="validation">{validation}</p>
-                        <div className="submit">
-                            <div className="button" variant="success"
-                                onClick={() => handleLogin()} >Sign In</div>
-                            <Link to="/sign_up"><div className="button" variant="success" >Sign Up</div></Link>
+        <div style={{height: "100%", width: "100%"}}>
+            { Header() }
+            <div className="container">
+                <div className="inside-container">
+                    <div className="inside-container-content">
+                        <div className="log-form">
+                            <div className="log-header">
+                                Log in to your account
+                            </div>
+                            <div className={"log-input"}>
+                                <label className={"log-input-label"}>Username</label>
+                                <input title="username" className={"log-input-data"} value={inputLogin}
+                                       onChange={(event) => {setInputLogin(event.target.value)}} type="text" />
+                            </div>
+                            <div className={"log-input"}>
+                                <label className={"log-input-label"}>Password</label>
+                                <input className={"log-input-data"} value={inputPassword}
+                                       onChange={(event) => {setInputPassword(event.target.value)}} type="password" />
+                            </div>
+                            <div className="log-input">
+                                <div className="log-button" variant="success"
+                                     onClick={() => handleLogin()} >Log In</div>
+                            </div>
+                            <div className="log-sign-up">If you don't have an account go to  <Link className={"log-sign-up-link"} to="/sign_up">sign up</Link>.</div>
                         </div>
                     </div>
                 </div>

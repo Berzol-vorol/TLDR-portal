@@ -7,6 +7,11 @@
   pointer-events: none;
 }
 
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -36,3 +41,28 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  padding: 0 1rem;
+  max-width: 1024px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  height: calc(100% - 70px);
+}
+
+.inside-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.inside-container-content {
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+  display: flex;
+}
+

@@ -1,65 +1,78 @@
-.main1{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-}
-
-.container1 {
-    width: 400px; 
-    background-color: #282c34;
-    border-radius: 30px;
-}
-
-.inside-container{
+.log-form {
+    max-width: 24rem;
+    padding: 1.25rem;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    margin: auto;
-    text-align: center;
-    padding: 10px;
-}   
-
-.text{
-    font-size: 30px;
-    color: chocolate;
-    font-weight: bold;
+    align-items: center;
 }
+
+.log-header {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.log-input {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.log-input-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.log-input-data {
+    padding-block: 1px;
+    padding-inline: 2px;
+    border-radius: 0.375rem;
+    width: calc(100% - 1.5rem - 2px);
+    padding: 0.375rem 0.75rem;
+    margin: 0;
+
+    line-height: 1.5rem;
+    font-size: 16px;
+    border-width: 1px;
+    border-color: rgb(222, 214, 246) !important;
+    background-color: rgb(248, 244, 255);
+    /*box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;*/
+}
+
+
 .submit{
     margin: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-.button{
-    width: 150px;
-    height: 50px;
-    background-color: chocolate;
-    color: #282c34;
-    font-size: 20px;
-    font-weight: bold;
+
+.log-button{
     display: flex;
-    align-items: center;
     justify-content: center;
+    width: calc(100% - 1.5rem - 2px);
+    border-width: 1px;
+    border-color: #10b981;
+    background-color: #10b981;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-radius: 0.375rem;
 }
 
-.button:hover{
-    box-shadow:
-    1px 1px wheat,
-    2px 2px wheat,
-    3px 3px wheat,
-    4px 4px wheat,
-    5px 5px wheat,
-    6px 6px wheat,
-    7px 7px wheat;
-    -webkit-transform: translateX(-7px);
-    transform: translateX(-7px);
-    transition: all 500ms ease;
+.log-sign-up {
+    text-align: center;
+    margin-top: 1rem;
 }
-.validation{
-    color: chocolate;
+
+.log-sign-up-link {
+    text-decoration-line: underline;
+    color: rgb(16 185 129 / 1);
 }

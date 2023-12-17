@@ -4,6 +4,7 @@ import "./Sign_in.css"
 import "./Push_summary.css"
 import { useNavigate, Link} from 'react-router-dom';
 import { signUpUser } from '../services/service';
+import Header from "./Header";
 
 
 const Sign_up = () => {
@@ -39,38 +40,41 @@ const Sign_up = () => {
     }
 
     return (
-    <div>
-        <div className="main1">
-            <div className="container1">
+        <div style={{height: "100%", width: "100%"}}>
+            { Header() }
+            <div className="container">
                 <div className="inside-container">
-                    <p className="text">
-                        Login
-                    </p>
-                    <input className={"input-data"} value={inputLogin}
-                            onChange={(event) => {setInputLogin(event.target.value)}} type="text" />
-                    <p className="text">
-                        Email
-                    </p>
-                    <input className={"input-data"} value={inputEmail}
-                            onChange={(event) => {setInputEmail(event.target.value)}} type="text" />
-                    <p className="text">
-                        Password
-                    </p>
-                    <input className={"input-data"} value={inputPassword}
-                            onChange={(event) => {setInputPassword(event.target.value)}} type="text" />
-                    
-                    <p className="validation">{validation}</p>
-
-                    <div className="submit">
-                        <Link  to="/"><div className="button">Back</div></Link>
-                        <div className="button" variant="success" onClick={() =>
-                                    handleSignUp()}>Sign Up</div>
+                    <div className="inside-container-content">
+                        <div className="log-form">
+                            <div className="log-header">
+                                Create a new account
+                            </div>
+                            <div className={"log-input"}>
+                                <label className={"log-input-label"}>Username</label>
+                                <input className={"log-input-data"} value={inputLogin}
+                                       onChange={(event) => {setInputLogin(event.target.value)}} type="text" />
+                            </div>
+                            <div className={"log-input"}>
+                                <label className={"log-input-label"}>Email</label>
+                                <input className={"log-input-data"} value={inputEmail}
+                                       onChange={(event) => {setInputEmail(event.target.value)}} type="text" />
+                            </div>
+                            <div className={"log-input"}>
+                                <label className={"log-input-label"}>Password</label>
+                                <input className={"log-input-data"} value={inputPassword}
+                                       onChange={(event) => {setInputPassword(event.target.value)}} type="password" />
+                            </div>
+                            <div className="log-input">
+                                <div className="log-button" variant="success"
+                                     onClick={() => handleSignUp()} >Sign up</div>
+                            </div>
+                            <div className="log-sign-up">If you already have an account go to <Link className={"log-sign-up-link"} to="/sign_in">login</Link>.</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default Sign_up;
