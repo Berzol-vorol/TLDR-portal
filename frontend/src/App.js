@@ -1,5 +1,4 @@
 import './App.css';
-import { useState, useEffect } from 'react';
 import Feed from "./pages/Feed"
 import Profile from "./pages/Profile"
 import Push_summary from "./pages/Push_summary"
@@ -8,62 +7,28 @@ import Sign_in from "./pages/Sign_in"
 import Sign_up from './pages/Sign_up';
 import Protected from './pages/Protected';
 
-import { UserProvider, useAuth } from './context/UserContext';
-
-import {fetchUserById, fetchUserByToken} from "./services/service";
+import { UserProvider, useLoggedIn } from './context/UserContext';
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from "react-router-dom";
-import axios from "axios";
 
-function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const [token, setToken_] = useState(localStorage.getItem("token"));
-    const { user, setUser, setToken } = useAuth();
+function App({user, token}) {
+    return (
+    <UserProvider user={user} token={token}>
+        <AppRouter/>
+    </UserProvider>
+    );
+}
 
-    const fetchUser = async () => {
-        const result = await fetchUserByToken(token);
-        console.log(result);
-        if (result.success) {
-            console.log(result.userId);
-            const user_ = await fetchUserById(result.userId);
-            console.log(user_);
-            setUser(user_);
-            setIsLoggedIn(true);
-        }
-        else {
-            setIsLoggedIn(false);
-        }
-    }
-
-    useEffect(() => {
-        if (user) {
-            setUser(user);
-            setIsLoggedIn(true);
-        } else {
-            if (token) {
-                axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-                localStorage.setItem('token',token);
-                setToken(token);
-
-                fetchUser().catch(console.error);
-                console.log(user);
-            }
-            else {
-                delete axios.defaults.headers.common["Authorization"];
-                localStorage.removeItem('token')
-                setIsLoggedIn(false);
-            }
-        }
-    }, [user, token, fetchUser]);
+function AppRouter() {
+    const isLoggedIn = useLoggedIn();
 
     return (
-    <UserProvider>
-      <Router>
-          <Routes>
+    <Router>
+        <Routes>
             <Route path="/" exact element={<Feed />} />
             <Route path="/profile" element={
                 <Protected isLoggedIn={isLoggedIn}>
@@ -78,10 +43,9 @@ function App() {
                     <Push_summary />
                 </Protected>
             }/>
-          </Routes>
-      </Router>
-    </UserProvider>
-    );
+        </Routes>
+    </Router>
+    )
 }
 
 export default App;
