@@ -1,5 +1,5 @@
 import {createContext, useState, useContext, } from 'react';
-
+import Cookies from 'js-cookie';
 
 export const UserContext = createContext({
   user: null,
@@ -21,7 +21,7 @@ export const UserProvider = ({ user: _user, token: _token, children }) => {
     logout: () => {
       setUser(null);
       setToken(null);
-      localStorage.removeItem("token");
+      Cookies.remove("token");
     }
   };
 
