@@ -95,7 +95,7 @@ export async function loginUser(user) {
 
     let result = await response.json();
     console.log(result)
-    return result.user;
+    return result;
 
 }
 
@@ -108,8 +108,7 @@ export async function signUpUser(user) {
 
     let result = await response.json();
     console.log(result)
-    return result.user;
-
+    return result;
 }
 
 export async function updateUserImg(user) {

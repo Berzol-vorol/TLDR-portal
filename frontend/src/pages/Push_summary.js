@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import {addSummary, generateSummary} from "../services/service";
 import {UserContext} from "../context/UserContext";
 
-const handleSubmit = async (inputTitle, inputResourceUrl, inputText, navigate, auth) => {
+const handleSubmit = async (inputTitle, inputResourceUrl, inputText, navigate, user) => {
     let new_summary = {
         title: inputTitle,
         resource_url: inputResourceUrl,
         text: inputText,
         tags : [],
-        creator: auth.getUserId(),
+        creator: user.id,
     }
 
     await addSummary(new_summary);
@@ -28,22 +28,12 @@ const handleGenerateAISummary = async (inputResourceUrl, setInputText) => {
 }
 
 const Push_summary = () => {
-    const auth = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [inputTitle, setInputTitle] = useState("");
     const [inputResourceUrl, setInputResourceUrl] = useState("");
     const [inputText, setInputText] = useState("");
 
     let navigate = useNavigate();
-
-    useEffect( () => {
-        const checkAuth = async () => {
-            if(auth.getUserId() == null){
-                navigate("/")
-            }
-        }
-        checkAuth()
-    }, [auth, navigate]
-    )
 
     return (
         <div>
@@ -68,7 +58,7 @@ const Push_summary = () => {
                         </div>
 
                         <div className={"summary-button"}
-                            onClick={() => handleSubmit(inputTitle, inputResourceUrl, inputText, navigate, auth)}>
+                            onClick={() => handleSubmit(inputTitle, inputResourceUrl, inputText, navigate, user)}>
                             <p className={"add-summary-text"}>Push summary</p>
                         </div>
                     </div>
