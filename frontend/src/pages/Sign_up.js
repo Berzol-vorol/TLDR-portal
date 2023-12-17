@@ -12,22 +12,23 @@ const Sign_up = () => {
     const [inputPassword, setInputPassword] = useState("");
     const [validation, setValidation] = useState("")
 
-    const auth = useContext(UserContext);
+    const { setUser, setToken } = useContext(UserContext);
     let navigate = useNavigate();
 
     const handleSignUp = async () => {
-        let user = {
+        let user_ = {
             login: inputLogin,
             email: inputEmail,
             password: inputPassword,
             image: ""
         }
 
-        let loggedUser = await signUpUser(user);
+        let { user, token} = await signUpUser(user_);
 
-        if(loggedUser != null) {
-            auth.login(loggedUser.id);
-            auth.setUser(loggedUser);
+        if(user != null) {
+            setToken(token);
+            localStorage.setItem('token',token);
+            setUser(user);
             navigate("/profile");
         } else {
             setInputLogin("");

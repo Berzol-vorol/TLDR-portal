@@ -1,5 +1,4 @@
 import './App.css';
-import { useState, useEffect } from 'react';
 import Feed from "./pages/Feed"
 import Profile from "./pages/Profile"
 import Push_summary from "./pages/Push_summary"
@@ -8,9 +7,7 @@ import Sign_in from "./pages/Sign_in"
 import Sign_up from './pages/Sign_up';
 import Protected from './pages/Protected';
 
-import { UserProvider, useAuth } from './context/UserContext';
-
-import { fetchUserByToken } from "./services/service";
+import { UserProvider, useLoggedIn } from './context/UserContext';
 
 import {
   BrowserRouter as Router,
@@ -18,32 +15,20 @@ import {
   Route,
 } from "react-router-dom";
 
-function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(null);
-    const { user, setUser, token } = useAuth();
+function App({user, token}) {
+    return (
+    <UserProvider user={user} token={token}>
+        <AppRouter/>
+    </UserProvider>
+    );
+}
 
-    useEffect(() => {
-        if (user) {
-            setIsLoggedIn(true);
-        } else {
-            if (token) {
-                const _user = fetchUserByToken(token);
-                if (_user) {
-                    setUser(_user);
-                    setIsLoggedIn(true);
-                }
-                else {
-                    setIsLoggedIn(false);
-                }
-            }
-            else setIsLoggedIn(false);
-        }
-    }, [user, token]);
+function AppRouter() {
+    const isLoggedIn = useLoggedIn();
 
     return (
-    <UserProvider>
-      <Router>
-          <Routes>
+    <Router>
+        <Routes>
             <Route path="/" exact element={<Feed />} />
             <Route path="/profile" element={
                 <Protected isLoggedIn={isLoggedIn}>
@@ -58,10 +43,9 @@ function App() {
                     <Push_summary />
                 </Protected>
             }/>
-          </Routes>
-      </Router>
-    </UserProvider>
-    );
+        </Routes>
+    </Router>
+    )
 }
 
 export default App;
