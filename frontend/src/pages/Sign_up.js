@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Cookies from 'js-cookie';
 import { UserContext } from '../context/UserContext';
 import "./Sign_in.css"
 import "./Push_summary.css"
@@ -27,7 +28,7 @@ const Sign_up = () => {
 
         if(user != null) {
             setToken(token);
-            localStorage.setItem('token',token);
+            Cookies.set('token',token, {expires: 1});
             setUser(user);
             navigate("/profile");
         } else {
