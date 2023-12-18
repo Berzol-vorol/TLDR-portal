@@ -42,13 +42,13 @@ const rankSummary = async (summary, mark, navigate, location) => {
 }
 
 
-const handleSubmit = async (summary, inputValue, setSummary, setLoading, auth) => {
+const handleSubmit = async (summary, inputValue, setSummary, setLoading, user) => {
     if(inputValue === "")
         return;
     let new_review = {
         content: inputValue,
         summary: summary.id,
-        creator: auth.getUserId(),
+        creator: user.id,
     }
 
     setLoading(true)
@@ -82,7 +82,7 @@ const LeftBarGeneration = ({review, navigate, location}) => {
 }
 
 const SummaryGeneration = ({summary, setSummary, setLoading}) => {
-    const auth = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const location = useLocation();
     const [inputValue, setInputValue] = useState("");
     const [inputRank, setInputRank] = useState(5);
@@ -120,7 +120,7 @@ const SummaryGeneration = ({summary, setSummary, setLoading}) => {
                 </div>
                 <div className={"input-comment-right-side"}>
                  <div style={{textAlign: "center"}} className={"submit-button"}  variant="success"
-                         onClick={() => handleSubmit(summary, inputValue, setSummary, setLoading, auth)} >Publish</div>
+                         onClick={() => handleSubmit(summary, inputValue, setSummary, setLoading, user)} >Publish</div>
                 </div>
             </div>
             {
@@ -135,18 +135,12 @@ const SummaryGeneration = ({summary, setSummary, setLoading}) => {
 }
 
 const Summary = () => {
-    const auth = useContext(UserContext);
     const location = useLocation();
     const [summary, setSummary] = useState(null)
     const [loading, setLoading] = useState(true)
 
     let navigate = useNavigate();
         useEffect ( () => {
-            const checkAuth = async () => {
-                if(auth.getUserId() == null){
-                    navigate("/")
-                }
-            }
             const getSummaryForUser = async () => {
                 const _summary = await fetchSummary(location.state.summaryId)
                 _summary.user = await fetchUserById(_summary.creator);
@@ -159,10 +153,9 @@ const Summary = () => {
                 setSummary(_summary)
                 setLoading(false)
             }
-            checkAuth()
             getSummaryForUser()
         },
-        [auth, navigate]
+        [navigate]
     )
     return (
     <div>

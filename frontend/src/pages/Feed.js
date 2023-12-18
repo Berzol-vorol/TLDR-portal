@@ -79,23 +79,13 @@ const PagesBarGeneration = ({summaries, page, setPage, navigate}) => {
 }
 
 const Feed = () => {
-    const auth = useContext(UserContext)
     const [summaries, setSummaries] = useState(null)
-    const [filteredData, setFilteredData] = useState(null);
-    const [searchNameTerm, setSearchNameTerm] = useState('');
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
 
     let navigate = useNavigate();
-    useEffect ( () => {
-
-        const checkForAuth = async () => {
-            if(auth.getUserId() == null){
-                navigate("/")
-            }
-        }
-
-        const getSummariesForUser = async () => {
+        useEffect ( () => {
+            const getSummariesForUser = async () => {
             const _summaries = await fetchAllSummaries()
             for(let i = 0; i < _summaries.length; i++) {
                 _summaries[i].user = await fetchUserById(_summaries[i].creator);
@@ -103,15 +93,14 @@ const Feed = () => {
             setSummaries(_summaries)
             setFilteredData(_summaries)
             setLoading(false)
-        }
-
-        checkForAuth()
-        getSummariesForUser()
-        }, [auth, navigate])
+            }
+            getSummariesForUser()
+        },
+        [navigate]
+    )
 
     useEffect(() => {
         if (loading === false) {
-            console.log("SUM", summaries)
             const filtered = summaries.filter(item =>
                 Object.values(item).some(value => value.toString().toLowerCase().includes(searchNameTerm.toLowerCase()))
             );

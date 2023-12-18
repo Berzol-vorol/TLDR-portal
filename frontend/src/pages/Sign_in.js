@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import "./Sign_in.css"
 import "./Push_summary.css"
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from "../context/UserContext";
+import {UserContext} from "../context/UserContext";
 import { loginUser } from "../services/service";
 
 const Sign_in = () => {
@@ -11,22 +12,23 @@ const Sign_in = () => {
     const [validation, setValidation] = useState("")
     const [loading, setLoading] = useState(true)
 
-    const auth = useContext(UserContext);
+    const { setUser, setToken } = useContext(UserContext);
     let navigate = useNavigate();
 
     const handleLogin = async () => {
-        let user =  {
+        let user_ =  {
             login : inputLogin,
             password : inputPassword
         }
 
-        let loggedUser = await loginUser(user);
+        let { user, token} = await loginUser(user_);
 
 
-        if(loggedUser != null) {
-            auth.login(loggedUser.id);
-            auth.setUser(loggedUser);
-            navigate("/feed");
+        if(user != null) {
+            setToken(token);
+            Cookies.set('token', token, {expires: 1});
+            setUser(user);
+            navigate("/profile");
         } else {
             setInputLogin("");
             setInputPassword("");
