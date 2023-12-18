@@ -265,10 +265,11 @@ const generateTLDR = async (req, res, next) => {
     try {
         response = await axios.request(options);
         console.log(response.data);
+        res.json({summary: response.data.summary[0]})
     } catch (error) {
         console.error(error);
+        res.json({summary: error.response.data.detail})
     }
-    res.json({summary: response.data.summary[0]})
 }
 
 exports.getSummaryById = getSummaryById;
