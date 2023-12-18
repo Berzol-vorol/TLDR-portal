@@ -161,53 +161,53 @@ const Feed = () => {
   }, [summaries, sortDirection, sortKey])
 
   return (
-    <div>
+    <div className={loading ? "no-scroll" : ""}>
       {Header()}
       <div className={"main-div"}>
         <div className={"main-div-tools"}>
             <p className={"main-div-major-text"}>Recent Summaries:</p>
             <div className={"main-div-button"} onClick={() => navigate("/push_summary")}>Add summary</div>
         </div>
-          <input
-            type="text"
-            value={filterAuthor}
-            placeholder="Find by author"
-            onChange={(event)=>{setFilterAuthor(event.target.value)}}
-            className={"custom-input"}
-          />
+        <div style={{display: "flex"}}>
+            <input
+                type="text"
+                value={filterAuthor}
+                placeholder="Find by author"
+                onChange={(event)=>{setFilterAuthor(event.target.value)}}
+                className={"custom-input"}
+            />
 
-          <input
-            type="text"
-            value={filterTitle}
-            placeholder="Find by title"
-            onChange={(event)=>{setFilterTitle(event.target.value)}}
-            className={"custom-input"}
-          />
+            <input
+                type="text"
+                value={filterTitle}
+                placeholder="Find by title"
+                onChange={(event)=>{setFilterTitle(event.target.value)}}
+                className={"custom-input"}
+            />
 
-          <div style={{margin: "20px"}}>
-            <label style={{color: "white"}}>Sort by:</label>
-            <select onChange={(e) => setSortKey(e.target.value)}>
-              <option value="author">Author</option>
-              <option value="rating">Rating</option>
-              <option value="title">Title</option>
-            </select>
-          </div>
+            <div style={{margin: "20px"}}>
+                <label style={{color: "white"}}>Sort by:</label>
+                <select onChange={(e) => setSortKey(e.target.value)}>
+                    <option value="author">Author</option>
+                    <option value="rating">Rating</option>
+                    <option value="title">Title</option>
+                </select>
+            </div>
 
-          <div style={{margin: "20px"}}>
-            <label style={{color: "white"}}>Sort ASC</label>
-            <input type="radio" checked={sortDirection} onClick={() => {setSortDirection(!sortDirection)}}/>
-          </div>
-
+            <div style={{margin: "20px"}}>
+                <label style={{color: "white"}}>Sort ASC</label>
+                <input type="radio" checked={sortDirection} onClick={() => {setSortDirection(!sortDirection)}}/>
+            </div>
         </div>
         <div className={"card-holder"}>
           {loading ? <div className="company-name"><Loading/></div> :
             <SummariesPageGeneration summaries={filteredData} page={page}/>
           }
-
         </div>
           {/*{loading ? <div className="company-name"></div> :*/}
           {/*    // <PagesBarGeneration summaries={summaries} page={page} setPage={setPage} navigate={navigate}/>*/}
           {/*}*/}
+      </div>
     </div>
   );
 }
