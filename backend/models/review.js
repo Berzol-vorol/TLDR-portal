@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const reviewSchema = new Schema({
     content: { type: String, required: true },
     mark: { type: Number, required: true },
+    publish_date: {type: Date, required: true},
     summary: { type: mongoose.Types.ObjectId, required: true, ref: 'Summary' },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' }
 })
