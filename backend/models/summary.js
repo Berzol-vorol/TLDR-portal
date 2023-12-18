@@ -6,6 +6,7 @@ const summarySchema = new Schema({
     title: { type: String, required: true },
     resource_url: { type: String, required: true},
     text: { type: String, required: true },
+    publish_date: {type: Date, required: true},
     tags: [{ type: String, required: false }],
     rating: { type: Number, required: true },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },

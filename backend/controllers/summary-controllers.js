@@ -56,8 +56,9 @@ const createSummary = async (req, res, next) => {
     const createdSummary = new Summary({
         title, 
         resource_url,
-        text, 
-        tags, 
+        text,
+        publish_date: new Date(),
+        tags,
         rating: 0,
         reviews: [],
         marksNumber: 0,
