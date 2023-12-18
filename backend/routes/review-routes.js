@@ -12,7 +12,7 @@ router.get('/user/:uid', reviewController.getReviewsByUserId);
 router.get('/user/:pid', reviewController.getReviewsBySummaryId);
 
 // position is important!!!! block all the requests comming to below without token
-router.use(verifyToken);
+// router.use(verifyToken);
 
 router.post('/', reviewController.createReview);
 
