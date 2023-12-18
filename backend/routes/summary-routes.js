@@ -13,7 +13,7 @@ router.get('/', summariesControllers.getAllSummaries);
 router.get('/user/:uid', summariesControllers.getSummariesByUserId);
 
 // position is important!!!! block all the requests comming to below without token 
-router.use(verifyToken);
+// router.use(verifyToken);
 
 router.post('/', summariesControllers.createSummary);
 
