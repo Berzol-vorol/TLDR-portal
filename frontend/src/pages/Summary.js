@@ -143,6 +143,7 @@ const Summary = () => {
         useEffect ( () => {
             const getSummaryForUser = async () => {
                 const _summary = await fetchSummary(location.state.summaryId)
+                console.log(location.state.summaryId)
                 _summary.user = await fetchUserById(_summary.creator);
                 _summary.review_data = [];
                 for(let i = 0;i < _summary.reviews.length; i++) {

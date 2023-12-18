@@ -15,15 +15,15 @@ const handleSubmit = async (inputTitle, inputResourceUrl, inputText, navigate, u
         creator: user.id,
     }
 
-    await addSummary(new_summary);
+    await addSummary(new_summary, user.token);
     navigate("/profile")
 }
 
-const handleGenerateAISummary = async (inputResourceUrl, setInputText) => {
+const handleGenerateAISummary = async (inputResourceUrl, setInputText, user) => {
     let body = {
         resource_url: inputResourceUrl
     }
-    let result = await generateSummary(body);
+    let result = await generateSummary(body, user.token);
     setInputText(result)
 }
 
@@ -53,7 +53,7 @@ const Push_summary = () => {
                         </div>
 
                         <div className={"summary-button"}
-                            onClick={() => handleGenerateAISummary(inputResourceUrl, setInputText)}>
+                            onClick={() => handleGenerateAISummary(inputResourceUrl, setInputText, user)}>
                             <p className={"add-summary-text"}>Get AI summary</p>
                         </div>
 

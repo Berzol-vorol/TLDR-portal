@@ -59,6 +59,14 @@
   height: 100%;
 }
 
+.underline {
+  text-decoration-line: underline;
+}
+
+.display-none {
+  display: none;
+}
+
 .inside-container-content {
   justify-content: center;
   align-items: center;
@@ -66,3 +74,6 @@
   display: flex;
 }
 
+p {
+  margin: 0;
+}

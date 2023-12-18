@@ -9,7 +9,7 @@ import { UserContext } from '../context/UserContext';
 
 const ViewSummary = ({summary, navigate}) => {
     return(
-        <div className="summary" onClick={() => navigate("/summary", { state : summary.id })}>
+        <div className="summary" onClick={() => navigate("/summary", { state: { summaryId: summary.id }})}>
             <p className="summary-text">{ summary.title }</p>
             <p className="summary-text">Rating: { summary.rating.toFixed(2) }</p>
             <p className="summary-text">Reviews: { summary.reviews.length }</p>
@@ -58,7 +58,8 @@ const Profile = () => {
                 <div className="main-content-left">
                     {loading ? <Loading/> :
                         <div>
-                            <p className="profile-text">{user.login}</p>
+                            <p className="profile-text">Hello {user.login}!</p>
+                            <p className="profile-text-secondary">{user.email}</p>
                             <p className="profile-text">Rating: {user.rating.toFixed(2)}</p>
                         </div>
                     }

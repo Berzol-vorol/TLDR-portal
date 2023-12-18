@@ -5,14 +5,14 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-bottom: 70px;
 }
 
 .log-header {
     font-size: 1.875rem;
     font-weight: 700;
     margin-top: 1.5rem;
-    width: 100%;
+    border-bottom: 1px solid gray;
 }
 
 .log-input {
@@ -22,8 +22,8 @@
 
 .log-input-label {
     display: block;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 0.875rem;
+    font-weight: 550;
     margin-bottom: 0.5rem;
 }
 
@@ -37,8 +37,9 @@
 
     line-height: 1.5rem;
     font-size: 16px;
-    border-width: 1px;
+    border-width: 1px !important;
     border-color: rgb(222, 214, 246) !important;
+    border-style: solid;
     background-color: rgb(248, 244, 255);
     /*box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;*/
 }
@@ -54,7 +55,7 @@
 .log-button{
     display: flex;
     justify-content: center;
-    width: calc(100% - 1.5rem - 2px);
+    width: calc(100% - 1.5rem);
     border-width: 1px;
     border-color: #10b981;
     background-color: #10b981;
@@ -65,6 +66,7 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     border-radius: 0.375rem;
+    cursor: pointer;
 }
 
 .log-sign-up {
@@ -75,4 +77,14 @@
 .log-sign-up-link {
     text-decoration-line: underline;
     color: rgb(16 185 129 / 1);
+}
+
+.validation {
+    background: #FED7D7;
+    color: #2D3748;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    line-height: 1.5rem;
+    margin-top: 1rem;
+    width: calc(100% - 1.5rem);
 }

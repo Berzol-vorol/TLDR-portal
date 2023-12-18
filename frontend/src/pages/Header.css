@@ -2,28 +2,48 @@
     width: 100%;
     height: 70px;
     background: #065F46;
+    display: flex;
+    justify-content: center;
 }
 .header-content{
-    width: 100%;
-    padding: 15px;
+    width: 1024px;
+    padding: 15px 0;
     display: flex;
     justify-content: space-between;
 }
 .header-left-block{
+    display: flex;
+    align-items: center;
+}
+
+.header-left-block .header-link {
+    font-weight: 700;
 }
 .header-right-block{
     display: flex;
-    flex-direction: row;
+    align-items: center;
 }
-.company-name{
+.header-link{
     color: white;
     margin: 10px;
     text-decoration: none;
+    font-size: 16px;
+    line-height: 24px;
 }
-.company-name:focus, :hover, :visited, :link, :active {
+.header-link:focus, :hover, :visited, :link, :active {
     text-decoration: none;
 }
-.company-name:hover{
-    color: wheat;
-    transition: all 200ms ease;
+
+.header-profile-actions {
+    display: flex;
+    align-items: center;
+}
+
+.header-profile-actions a:hover {
+    text-decoration: underline;
+}
+
+.logout-action {
+    color: #fff;
+    cursor: pointer;
 }

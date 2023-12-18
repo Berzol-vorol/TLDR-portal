@@ -18,6 +18,11 @@ const Sign_up = () => {
     let navigate = useNavigate();
 
     const handleSignUp = async () => {
+        if (inputPassword.length < 8) {
+            setValidation("password must be at least 8 characters");
+            return;
+        }
+
         let user_ = {
             login: inputLogin,
             email: inputEmail,
@@ -25,7 +30,7 @@ const Sign_up = () => {
             image: ""
         }
 
-        let { user, token} = await signUpUser(user_);
+        let {user, token} = await signUpUser(user_);
 
         if(user != null) {
             setToken(token);
@@ -36,7 +41,7 @@ const Sign_up = () => {
             setInputLogin("");
             setInputEmail("");
             setInputPassword("");
-            setValidation("There is user with same login")
+            setValidation("there is user with same credentials")
         }
     }
 
@@ -50,6 +55,9 @@ const Sign_up = () => {
                             <div className="log-header">
                                 Create a new account
                             </div>
+                            {
+                                validation ? <div className={"validation"}>Validation failed: { validation } </div> : <></>
+                            }
                             <div className={"log-input"}>
                                 <label className={"log-input-label"}>Username</label>
                                 <input className={"log-input-data"} value={inputLogin}
