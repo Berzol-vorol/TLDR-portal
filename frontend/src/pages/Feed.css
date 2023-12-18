@@ -1,5 +1,6 @@
 .summary-card {
     width: calc(100% - 32px);
+    background-color: white;
     margin: auto;
     display: flex;
     flex-direction: row;

@@ -159,7 +159,7 @@ const Summary = () => {
         [navigate]
     )
     return (
-    <div>
+    <div className={loading ? "no-scroll" : ""}>
            { Header() }
         <div className={"main-div"}>
             { loading ?

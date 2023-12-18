@@ -8,11 +8,13 @@ import Icon from '@mdi/react';
 import {mdiOpenInNew, mdiAccountCircle} from '@mdi/js';
 
 import {fetchAllSummaries, fetchUserById} from "../services/service";
-
+import moment from "moment";
 
 const CardGeneration = (summary) => {
     let navigate = useNavigate();
     console.log(summary.summary);
+    const date = moment(summary.summary.publish_date);
+
     return (
         <div className={"summary-card"}>
             <div className={"summary-card-stats-wrap"}>
@@ -32,7 +34,7 @@ const CardGeneration = (summary) => {
                 </div>
                 <div className={"summary-card-data-tags"}>
                     {
-                        ["tag1", "asadad", "asdasd"].map((res) => {
+                        summary.summary.tags.map((res) => {
                             return <div className={"summary-card-data-tag"} key={res}>{res}</div>
                         })
                     }
@@ -47,7 +49,7 @@ const CardGeneration = (summary) => {
                     </a>
                     <div className={"summary-card-data-links-author"}>
                         <Icon className={"summary-card-data-links-source-icon"} path={mdiAccountCircle} size={0.8}/>
-                        {summary.summary.user.login}
+                        {summary.summary.user.login} ({date.fromNow()})
                     </div>
                 </div>
             </div>
@@ -122,7 +124,7 @@ const Feed = () => {
     )
 
     return (
-        <div>
+        <div className={loading ? "no-scroll" : ""}>
             {Header()}
             <div className={"main-div"}>
                 <div style={{display: "none"}}> TODO filtering</div>
