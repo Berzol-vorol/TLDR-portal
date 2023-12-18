@@ -1,6 +1,5 @@
 .summary-card {
-    width: 100%;
-    max-width: 1024px;
+    width: calc(100% - 32px);
     margin: auto;
     display: flex;
     flex-direction: row;
@@ -125,10 +124,25 @@
 }
 
 .main-div-tools{
+    width: calc(100% - 24px);
+
     display: flex;
-    flex-direction: column;
-    margin: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 24px 0 24px 24px;
 }
+.main-div-button {
+    background-color: #10b981;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.main-div-button:hover {
+    background-color: #0e865c;
+}
+
 .main-div-minor-text{
     color: #282c34;
     font-size: 30px;

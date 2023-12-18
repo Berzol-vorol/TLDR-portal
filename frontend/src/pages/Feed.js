@@ -128,7 +128,7 @@ const Feed = () => {
                 <div style={{display: "none"}}> TODO filtering</div>
                 <div className={"main-div-tools"}>
                     <p className={"main-div-major-text"}>Recent Summaries:</p>
-                    <div>Add summary</div>
+                    <div className={"main-div-button"} onClick={() => navigate("/push_summary")}>Add summary</div>
                 </div>
                 <div className={"card-holder"}>
                     {loading ? <div className="company-name"><Loading/></div> :
