@@ -59,7 +59,7 @@ const PagesBarGeneration = ({summaries, page, setPage, navigate}) => {
             {
                  result.map((res)=> {
                      if(res === page){
-                         return <span style={{color: "wheat"}} className={"main-div-page-text"}
+                         return <span style={{color: "wheat"}} className={"main-div-page-text"} key={res}
                             onClick={() => {
                                 setPage(res)
                             }}>

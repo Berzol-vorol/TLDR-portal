@@ -12,7 +12,6 @@
 }
 .main-content-left{
     width: 300px;
-    background-color: chocolate;
     padding: 20px;
     text-align: center;
     display: flex;
@@ -27,47 +26,31 @@
     height: 100%;
 }
 
-.profile-img{
-    height: 150px;
-    width: 150px;
-    border-radius: 75px;
-    background-color: black;
-    margin: auto;
-}
 .profile-text{
-    font-size: 60px;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.profile-text-secondary {
+    font-size: 14px;
     color: #282c34;
-    margin: 20px;
-    line-height: 55px;
 }
 
 .summary-button{
     width: 250px;
     height: 100px;
     background-color: #282c34;
+    color: white;
     border-radius: 20px;
     margin: auto;
     margin-top: 10px;
     text-align: center;
     line-height: 100px;
 }
-.summary-button:hover{
-    box-shadow:
-    1px 1px wheat,
-    2px 2px wheat,
-    3px 3px wheat,
-    4px 4px wheat,
-    5px 5px wheat,
-    6px 6px wheat,
-    7px 7px wheat;
-    -webkit-transform: translateX(-7px);
-    transform: translateX(-7px);
-    transition: all 500ms ease;
-    cursor: default;
-}
+
 .add-summary-text{
     font-size: 30px;
-    color: chocolate;
+    color: white;
     margin: auto;
 }
 

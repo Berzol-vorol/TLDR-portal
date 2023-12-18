@@ -125,10 +125,13 @@ export async function updateUserImg(user) {
 
 }
 
-export async function addSummary(summary){
+export async function addSummary(summary, token){
     let response = await fetch(apiURL + '/api/summaries',{
         method : 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
         body: JSON.stringify(summary)
     })
 
@@ -137,10 +140,13 @@ export async function addSummary(summary){
     return result.summary;
 }
 
-export async function generateSummary(summary){
+export async function generateSummary(summary, token){
     let response = await fetch(apiURL + '/api/summaries/auto_generated',{
         method : 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
         body: JSON.stringify(summary)
     })
 
