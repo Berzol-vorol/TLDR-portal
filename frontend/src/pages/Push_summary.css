@@ -1,58 +1,168 @@
-.main{
+.push-summary-container{
     width: 100%;
-}
-.main-content{
-    width: 1200px;
-    margin: auto;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
 }
-.main-content-left-column{
-    width: 400px;
-    background-color: chocolate;
-    height: 500px;
-    padding: 20px;
-    text-align: center;
-
+.push-summary{
+    min-width: 1216px;
+    display: flex;
+    justify-content: center;
+}
+.push-summary-form{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-}
-.main-content-right-column{
-    width: 800px;
-    height: 500px;
-    background-color: #282c34;
-    padding: 20px;
+    width: calc(70%);
 }
 
-.input-label{
-    font-size: 30px;
-    font-weight: bold;
+
+.push-summary-form-title {
+
 }
-.input-data{
-    width: 300px;
-    margin: auto;
-    height: 40px;
-    font-size: 30px;
+.push-summary-form-main-tip{
+    padding: 24px;
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid #065F46;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+.push-summary-form-main-tip-header{
+    margin-top: 0;
+}
+.push-summary-form-main-tip-text{
+    font-size: 15px;
+}
+.push-summary-form-main-tip-steps li{
+    font-size: 13px;
+}
+.push-summary-form-main-tip-steps ul {
+    margin: 0;
+}
+.push-summary-form-main-tip-steps h5 {
+    margin-bottom: 0;
+}
+.push-summary-form-card {
+    position: relative;
+    margin-bottom: 16px;
+    padding: 24px;
+    border: 1px solid rgb(227, 230, 232);
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
 }
 
-.add-summary-button{
-    width: 250px;
-    height: 100px;
-    background-color: #282c34;
-    border-radius: 20px;
-    margin: auto;
-    text-align: center;
-    line-height: 100px;
+.push-summary-form-card-input {
+    padding: 8px 9px;
+    border-radius: 6px;
+    border: 1px solid rgb(186, 191, 197);
 }
 
-.text-area{
-    width: 100%;
-    height: 100%;
+.push-summary-form-card-input-wrap, .push-summary-form-card-textarea-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px
 }
-::-webkit-input-placeholder {
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    padding-top: 200px;
-  }
+.push-summary-form-card-label {
+    font-size: 15px;
+}
+.push-summary-form-card-sub-label{
+    font-size: 12px;
+    margin: 2px 0;
+    color: rgb(99, 107, 116);
+}
+
+
+.push-summary-form-card-input-button{
+    background-color: #10b981;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    line-height: 15px;
+    max-width: 30px;
+    font-weight: 500;
+}
+
+.push-summary-form-card-input-button:hover {
+    background-color: #0e865c;
+}
+
+.push-summary-form-card-label{}
+.push-summary-form-card-textarea-wrap{}
+
+.push-summary-form-card-hint {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.push-summary-form-card-sub-generation{
+    font-size: 13px;
+    margin: 2px 0;
+    color: rgb(34, 35, 37);
+}
+
+.push-summary-form-card-sub-generation a {
+    margin-left: 4px;
+    font-size: 13px;
+    border-bottom: 1px solid #065F46;
+    color: #065F46;
+    cursor: pointer;
+}
+.summary-card-data-links-source a:hover {
+    border-bottom: 1px solid rgb(4, 51, 38);
+    color: rgb(4, 51, 38);
+}
+
+.push-summary-form-card-sub-button{
+    background-color: rgba(147, 146, 146, 0.3);
+    border: 1px solid #606267;
+    color: #000000;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    line-height: 15px;
+
+    font-weight: 500;
+}
+.push-summary-form-card-sub-button:hover {
+    background-color: rgba(147, 146, 146, 0.4);
+}
+.add-summary-text{}
+.push-summary-form-card-textarea{
+    min-height: 300px;
+    resize: vertical;
+    border: 1px solid rgb(186, 191, 197);
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.push-summary-form-card-input-publish-button {
+    background-color: #10b981;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    line-height: 15px;
+    max-width: 110px;
+    font-weight: 500;
+}
+
+.push-summary-form-card-input-button:hover {
+    background-color: #0e865c;
+}
+
+.push-summary-form-card-input-publish-button.disabled {
+    pointer-events: none;
+    background-color: rgba(117, 122, 120, 0.9);
+}
+
+.card-validation {
+    color: red;
+    font-size: 13px;
+}
