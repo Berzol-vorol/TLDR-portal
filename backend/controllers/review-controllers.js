@@ -56,6 +56,7 @@ const createReview = async (req, res, next) => {
     const createdReview = new Review({
         content,
         mark : 0,
+        publish_date: new Date().toLocaleDateString(),
         summary,
         creator
     })

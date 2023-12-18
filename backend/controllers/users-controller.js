@@ -33,10 +33,11 @@ const verifyToken = (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
     const id = req.params.uid; // {pid: 'p1'}
+    console.log(id)
 
     let user;
     try {
-        user = await User.findById(id);
+        user = await User.findById(id).populate('summaries').populate('reviews');
     } catch(err){
         const error = new HttpError(
             'Something went wrong, could not find a user.',
@@ -48,7 +49,21 @@ const getUserById = async (req, res, next) => {
         const error = new HttpError('Could not find user for the provided id.', 404);
         return next(error);
     }
-    res.json({ user: user.toObject({getters: true }) });
+
+    const tagCountMap = {};
+
+    user.summaries.forEach((summary) => {
+        summary.tags.forEach((tag) => {
+            tagCountMap[tag] = (tagCountMap[tag] || 0) + 1;
+        });
+    });
+
+    // Sort tags by popularity
+    const sortedTags = Object.keys(tagCountMap).sort(
+        (a, b) => tagCountMap[b] - tagCountMap[a]
+    );
+
+    res.json({ user: user.toObject({getters: true }), tags: sortedTags});
 }
 
 const getUsers = async (req, res, next) => {
@@ -66,7 +81,7 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-    const { login, email, password, image } = req.body;
+    const { login, email, password, image} = req.body;
 
     let existingUser;
     try{
@@ -81,6 +96,7 @@ const signup = async (req, res, next) => {
     }
  
     let hashedPassword;
+    console.log(req.body)
     try{
         hashedPassword = await bcrypt.hash(password, 12); // second parametr is number of salting rounds; 12 is good 
     } catch(err){
@@ -91,7 +107,8 @@ const signup = async (req, res, next) => {
     const createdUser = new User({
         login,
         email,
-        password: hashedPassword, 
+        password: hashedPassword,
+        signup_date: new Date(),
         image, 
         rating: 0,
         summaries: [], 
