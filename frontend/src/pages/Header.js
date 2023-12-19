@@ -9,6 +9,7 @@ const Header = () => {
 
     let navigate = useNavigate();
     const logoutHandle = () => {
+        setIsLoggedIn(false);
         logout();
         navigate("/");
     }
@@ -16,7 +17,7 @@ const Header = () => {
     useEffect(() => {
             if (user) setIsLoggedIn(true);
             else setIsLoggedIn(false);
-        }, [user]
+        }, [user, isLoggedIn]
     );
     return (
         <div className={""}>
@@ -27,7 +28,7 @@ const Header = () => {
                     </div>
                     <div className="header-right-block">
                         {isLoggedIn ?
-                            <div className={"header-profile-actions"}><Link className="header-link" to={"/profile"}>Hi, {user.login}!</Link>
+                            <div className={"header-profile-actions"}><Link className="header-link" to={"/profile"}>Hi, {user ? user.login : "user"}!</Link>
                                 <div className={"underline logout-action"} onClick={logoutHandle}>(Logout)</div>
                             </div> :
                             <Link className="header-link underline" to={"/sign_in"}>Log in</Link>

@@ -157,9 +157,10 @@
     background-color: #0e865c;
 }
 
-.push-summary-form-card-input-publish-button.disabled {
+.disabled {
     pointer-events: none;
-    background-color: rgba(117, 122, 120, 0.9);
+    cursor: not-allowed;
+    background-color: rgba(117, 122, 120, 0.9) !important;
 }
 
 .card-validation {

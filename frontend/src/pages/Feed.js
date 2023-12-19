@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./Feed.css"
 import "./Header.css"
 import Header from "./Header";
@@ -48,7 +48,7 @@ const CardGeneration = (summary) => {
                     </a>
                     <div className={"summary-card-data-links-author"}>
                         <Icon className={"summary-card-data-links-source-icon"} path={mdiAccountCircle} size={0.8}/>
-                        {summary.summary.user.login} ({date.fromNow()})
+                        {summary.summary?.user?.login} ({date.fromNow()})
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@ const Feed = () => {
         const _summaries = await fetchAllSummaries()
         for (let i = 0; i < _summaries.length; i++) {
           _summaries[i].user = await fetchUserById(_summaries[i].creator);
-          _summaries[i].author = _summaries[i].user.login
+          _summaries[i].author = _summaries[i]?.user?.login
         }
         setSummaries(_summaries)
         setFilteredData(_summaries)
