@@ -63,14 +63,7 @@ const Profile = () => {
                             <p className="profile-text">Rating: {user.rating.toFixed(2)}</p>
                         </div>
                     }
-                    <div className="summary-button" onClick={() => navigate("/push_summary")}>
-                        <p className="add-summary-text">Add summary</p>
-                    </div>
-
-                    <div className="summary-button" onClick={() => logoutHandle(navigate)}>
-                            <p className="add-summary-text">Log out</p>
-                    </div>
-
+                    <div className={"main-div-button"} onClick={() => navigate("/push_summary")}>Add summary</div>
                 </div>
                 <div className="main-content-right">
                     <div className="summary-holder">

@@ -6,6 +6,9 @@ import Loading from "./Loading";
 import { useNavigate, useLocation } from 'react-router-dom'
 import {UserContext} from "../context/UserContext";
 import {fetchSummary, fetchReview, fetchUserById, addReview, editReview, editSummaryMark} from "../services/service";
+import moment from "moment/moment";
+import Icon from "@mdi/react";
+import {mdiAccountCircle, mdiOpenInNew, mdiMenuUp, mdiMenuDown} from "@mdi/js";
 
 const voteUpReview = async (review, navigate, location) => {
     let body = {
@@ -42,7 +45,7 @@ const rankSummary = async (summary, mark, navigate, location) => {
 }
 
 
-const handleSubmit = async (summary, inputValue, setSummary, setLoading, user) => {
+const handleSubmit = async (summary, inputValue, setSummary, setLoading, user, setGLoading, setInputValue) => {
     if(inputValue === "")
         return;
     let new_review = {
@@ -51,7 +54,7 @@ const handleSubmit = async (summary, inputValue, setSummary, setLoading, user) =
         creator: user.id,
     }
 
-    setLoading(true)
+    setGLoading(true)
     await addReview(new_review);
     const _summary = await fetchSummary(summary.id);
 
@@ -66,16 +69,20 @@ const handleSubmit = async (summary, inputValue, setSummary, setLoading, user) =
     // }
     //setSummary(_summary);
 
-    setLoading(false)
+    setGLoading(false)
+    setInputValue("")
 }
 
 const LeftBarGeneration = ({review, navigate, location}) => {
     return(
         <div className={"left-bar"}>
-            <div className={"button-up"} onClick={() => voteUpReview(review, navigate, location)}>^</div>
+            <div className={"button-vote"} onClick={() => voteUpReview(review, navigate, location)}>
+                <Icon path={mdiMenuUp} size={1.3} />
+            </div>
             <p className={"mark-text"}>{review.mark}</p>
-            <div className={"button-down"} onClick={() => voteDownReview(review, navigate, location)}>v</div>
-            <p className={"mark-text"}>{review.user.login}</p>
+            <div className={"button-vote"} onClick={() => voteDownReview(review, navigate, location)}>
+                <Icon path={mdiMenuDown} size={1.3} />
+            </div>
         </div>
     )
 
@@ -87,49 +94,100 @@ const SummaryGeneration = ({summary, setSummary, setLoading}) => {
     const [inputValue, setInputValue] = useState("");
     const [inputRank, setInputRank] = useState(5);
 
+    const [gLoading, setGLoading] = useState(false);
+
     let navigate = useNavigate();
 
     return(
-        <div className={"right-bar"}>
-            <div className={"main-div-tools"}>
-                <p className={"review-text"}>{summary.title} </p>
-                <p className={"review-rating"} >Rating: {summary.rating.toFixed(2)} ★</p>
+        <div className={"big-summary-card"}>
+            <div className={"big-summary-card-main"}>
+                <div className={"review-text-div"}>
+                    <p>{summary.text} </p>
+                    <div className={"big-summary-card-data-tags"}>
+                        {
+                            summary.tags.map((res) => {
+                                return <div className={"summary-card-data-tag"} key={res}>{res}</div>
+                            })
+                        }
+                    </div>
+                </div>
+                <div className={"big-summary-card-stats-wrap"}>
+                    <div className={"big-summary-card-stats"}>
+                        <div className={"summary-card-stats-label"}>{summary.reviews.length} reviews</div>
+                        <div className={"summary-card-stats-label"}>{summary.marksNumber} marks</div>
+                        <div className={"summary-card-stats-label"}>{Math.round(summary.rating)} rating</div>
+                    </div>
+                </div>
             </div>
-            <plaintext className={"review-text-div"}>
-                <pre>{summary.text} </pre>
-            </plaintext>
-            <div className={"main-div-tools"}>
-                <p className={"review-text"} style={{marginBottom: "30px", width: "850px"}}>Author: {summary.user.login}</p>
+            <div className={"big-summary-card-data"}>
+                <div className={"big-summary-card-data-links"}>
+                    <a className={"big-summary-card-data-links-source"}
+                       href={summary.resource_url}
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <Icon className={"big-summary-card-data-links-source-icon"} path={mdiOpenInNew} size={0.9}/>
+                        Source Link
+                    </a>
+                    <div className={"big-summary-card-data-links-author"}>
+                        <b>Author:</b>
+                        <Icon className={"big-summary-card-data-links-source-icon"} path={mdiAccountCircle} size={1}/>
+                        { summary?.user?.login }
+                    </div>
+                </div>
                 <div className={"rate-div"}>
-                    <select className={"rate-select"} value={inputRank}
-                            onChange={(event) => {setInputRank(event.target.value)}}>
+                    <div className={"rate-div-content"}>
+                        <select className={"rate-select"} value={inputRank}
+                                onChange={(event) => {setInputRank(event.target.value)}}>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
-                    </select>
-                    <div  className="review-rate-button"
-                             onClick={() => rankSummary(summary, inputRank, navigate, location)}>Rate</div>
+                        </select>
+                        <div  className={user ? "review-rate-button" : "review-rate-button disabled"}
+                              onClick={() => rankSummary(summary, inputRank, navigate, location)}>Rate</div>
+                    </div>
                 </div>
             </div>
-            <div className={"input-comment-div"}>
-                <div>
-                 <textarea className={"input-comment"} value={inputValue}
-                         onChange={(event) => {setInputValue(event.target.value)}} type="text"/>
-                </div>
-                <div className={"input-comment-right-side"}>
-                 <div style={{textAlign: "center"}} className={"submit-button"}  variant="success"
-                         onClick={() => handleSubmit(summary, inputValue, setSummary, setLoading, user)} >Publish</div>
-                </div>
-            </div>
+            <h2 className={"test-text"}>{summary.review_data.length} Reviews</h2>
             {
-                summary.review_data.map(review =>
-                    <div className={"comment-div"} key={review.id}>
+                summary.review_data.map(review => {
+                    let pDate = moment(review.publish_date).fromNow();
+                    return <div className={"comment-main"} key={review.id}>
                         <LeftBarGeneration review={review} navigate={navigate} location={location} />
-                        <textarea disabled className={"comment-text"}>{review.content}</textarea>
-                    </div>).reverse()
-            }
+                        <div className={"comment-main-text"}>
+                            <div className={"comment-card-main"}>
+                                <p>{review.content} </p>
+                             </div>
+
+                            <div className={"comment-author"}>
+                                <label className={"big-summary-subheader"}>Posted {pDate}</label>
+                                <div className={"comment-author-text"}>
+                                    <Icon className={"big-summary-card-data-links-source-icon"} path={mdiAccountCircle} size={0.8}/>
+                                    { review?.user?.login }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>;}).reverse()
+                }
+            <div className={"big-push-summary-form-card"}>
+                <div className={"big-push-summary-form-card-textarea-wrap"}>
+                    <div className={gLoading ? "" : "display-none"}>
+                        <Loading/>
+                    </div>
+                    <label className={"big-push-summary-form-card-label"}>Your Review</label>
+                    <label className={"push-summary-form-card-sub-label"}/>
+                    <textarea className={"big-push-summary-form-card-textarea"} value={inputValue}
+                           onChange={(event) => {
+                               setInputValue(event.target.value)
+                           }}/>
+                    <div className={ user ? "big-push-summary-form-card-input-publish-button" : "big-push-summary-form-card-input-publish-button disabled"}
+                         onClick={() => handleSubmit(summary, inputValue, setSummary, setLoading, user, setGLoading, setInputValue)}>
+                        Post your review
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
@@ -138,6 +196,7 @@ const Summary = () => {
     const location = useLocation();
     const [summary, setSummary] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [date, setDate] = useState("")
 
     let navigate = useNavigate();
         useEffect ( () => {
@@ -152,6 +211,8 @@ const Summary = () => {
                     _summary.review_data.push(review);
                 }
                 setSummary(_summary)
+                setDate(moment(_summary.publish_date).fromNow());
+                console.log(date);
                 setLoading(false)
             }
             getSummaryForUser()
@@ -167,7 +228,14 @@ const Summary = () => {
                     <Loading/>
                 </div>
                 :
-                <div className={"main-div-wrapper"}>
+                <div>
+                    <div className={"big-summary-wrap"}>
+                        <div className={"big-summary-header"}>
+                            <p className={"main-div-major-text"}>{summary.title}</p>
+                            <label className={"big-summary-subheader"}>Posted {date}</label>
+                        </div>
+                        <div className={"main-div-button"} onClick={() => navigate("/push_summary")}>Add summary</div>
+                    </div>
                     <SummaryGeneration  summary = {summary} setSummary = {setSummary} setLoading = {setLoading}/>
                 </div>
             }

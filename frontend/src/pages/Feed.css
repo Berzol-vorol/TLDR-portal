@@ -126,10 +126,10 @@
 
 .main-div-tools{
     width: calc(100% - 24px);
-
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-start;
     padding: 24px 0 24px 24px;
 }
 .main-div-button {
@@ -168,6 +168,8 @@
 .main-div-major-text{
     font-size: 27px;
     text-align: left;
+    max-width: calc(100% - 160px);
+    word-wrap: break-word;
 }
 
 .main-div-search{

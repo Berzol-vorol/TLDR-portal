@@ -7,7 +7,6 @@ import { inject } from '@vercel/analytics';
 
 inject();
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const cookies = await getCookies()
 

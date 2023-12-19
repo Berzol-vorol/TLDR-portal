@@ -148,7 +148,7 @@ const Push_summary = () => {
                                         You can generate summary using
                                         <a target="_blank"
                                            rel="noopener noreferrer"
-                                           href={"https://rapidapi.com/tldrthishq-tldrthishq-default/api/tldrthis/"}>
+                                           href={"https://www.tldrthis.com/"}>
                                             AI TLDR tool
                                         </a>.
                                     </div>
