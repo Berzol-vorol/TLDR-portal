@@ -37,6 +37,12 @@
     padding: 10px 0 0 50px;
 }
 
+.comment-card-main {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0 0 0;
+}
+
 .big-summary-card-stats{
     display: flex;
     flex-direction: column;
@@ -186,9 +192,17 @@
     font-weight: 600;
 }
 
+.test-text {
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: 50px;
+    border-bottom: 1px solid #10b981;
+    width: calc(100% - 160px);
+}
+
 .big-push-summary-form-card-textarea{
     min-height: 150px;
-    width: 100%;
+    width: calc(100% - 6px);
     resize: vertical;
     border: 1px solid rgb(186, 191, 197);
     border-radius: 6px;
@@ -282,24 +296,29 @@ body {
 }
 
 .comment-main-text {
-    width: calc(100% - 150px);
+    width: calc(100% - 150px - 24px);
     min-height: 110px;
     display: flex;
+    margin-left: 24px;
     flex-direction: column;
-    justify-content: space-between
-
-
+    justify-content: space-between;
+    border-bottom: 1px solid #10b981;
 }
 
 .comment-author {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    gap: 2px;
+    justify-content: space-between;
     line-height: 26px;
     color: #065F46;
     font-size: 16px;
     font-weight: 500;
+}
+
+.comment-author-text {
+    display: flex;
+    align-items: center;
+    gap: 3px;
 }
 
 .comment-text{
