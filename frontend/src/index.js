@@ -4,8 +4,11 @@ import './index.css';
 import App from './App';
 import {getCookies} from "./utils/util";
 import { inject } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
 inject();
+injectSpeedInsights();
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const cookies = await getCookies()
