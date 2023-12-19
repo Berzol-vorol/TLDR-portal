@@ -7,6 +7,8 @@ import Sign_in from "./pages/Sign_in"
 import Sign_up from './pages/Sign_up';
 import Protected from './pages/Protected';
 
+import { SpeedInsights } from '@vercel/speed-insights/react';
+
 import { UserProvider, useLoggedIn } from './context/UserContext';
 
 import {
@@ -44,6 +46,7 @@ function AppRouter() {
                 </Protected>
             }/>
         </Routes>
+        <SpeedInsights />
     </Router>
     )
 }
