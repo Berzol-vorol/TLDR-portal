@@ -169,6 +169,14 @@ const Feed = () => {
             <div className={"main-div-button"} onClick={() => navigate("/push_summary")}>Add summary</div>
         </div>
         <div style={{display: "flex"}}>
+
+            <input
+              type="text"
+              value={filterTitle}
+              placeholder="Find by title"
+              onChange={(event)=>{setFilterTitle(event.target.value)}}
+              className={"custom-input"}
+            />
             <input
                 type="text"
                 value={filterAuthor}
@@ -177,13 +185,6 @@ const Feed = () => {
                 className={"custom-input"}
             />
 
-            <input
-                type="text"
-                value={filterTitle}
-                placeholder="Find by title"
-                onChange={(event)=>{setFilterTitle(event.target.value)}}
-                className={"custom-input"}
-            />
 
             <div style={{margin: "20px"}}>
                 <label style={{color: "white"}}>Sort by:</label>
