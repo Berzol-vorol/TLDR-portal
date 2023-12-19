@@ -115,6 +115,7 @@ const SummaryGeneration = ({summary, setSummary, setLoading}) => {
                     <div className={"big-summary-card-stats"}>
                         <div className={"summary-card-stats-label"}>{summary.reviews.length} reviews</div>
                         <div className={"summary-card-stats-label"}>{summary.marksNumber} marks</div>
+                        <div className={"summary-card-stats-label"}>{Math.round(summary.rating)} rating</div>
                     </div>
                 </div>
             </div>
@@ -148,21 +149,21 @@ const SummaryGeneration = ({summary, setSummary, setLoading}) => {
                     </div>
                 </div>
             </div>
+            <h2 className={"test-text"}>{summary.review_data.length} Reviews</h2>
             {
                 summary.review_data.map(review => {
-                    console.log(review);
+                    let pDate = moment(review.publish_date).fromNow();
                     return <div className={"comment-main"} key={review.id}>
                         <LeftBarGeneration review={review} navigate={navigate} location={location} />
                         <div className={"comment-main-text"}>
-                            <div className={"big-summary-card-main"}>
+                            <div className={"comment-card-main"}>
                                 <p>{review.content} </p>
                              </div>
 
                             <div className={"comment-author"}>
-                                <label className={"big-summary-subheader"}>Posted {moment(review.publish_date).fromNow()}</label>
-                                <div className={"big-summary-card-data-links-author"}>
-                                    <b>Author:</b>
-                                    <Icon className={"big-summary-card-data-links-source-icon"} path={mdiAccountCircle} size={1}/>
+                                <label className={"big-summary-subheader"}>Posted {pDate}</label>
+                                <div className={"comment-author-text"}>
+                                    <Icon className={"big-summary-card-data-links-source-icon"} path={mdiAccountCircle} size={0.8}/>
                                     { review?.user?.login }
                                 </div>
                             </div>
